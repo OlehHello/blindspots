@@ -74,8 +74,8 @@
 							<ul>
 								<li style="margin-right: 1em;">
 									<span id="lang-switch" style="background: rgba(255, 255, 255, 0.08); padding: 0.3em 0.6em; border-radius: 20px; font-size: 0.8em; font-weight: bold; cursor: pointer; user-select: none;">
-										<span id="btn-ua" onclick="setLanguage('ua')" style="color: #f59e0b; padding: 0 0.2em;">UA</span> | 
-										<span id="btn-en" onclick="setLanguage('en')" style="opacity: 0.5; padding: 0 0.2em;">EN</span>
+										<span id="btn-ua" onclick="switchLanguage('ua')" style="color: #f59e0b; padding: 0 0.2em;">UA</span> | 
+										<span id="btn-en" onclick="switchLanguage('en')" style="opacity: 0.5; padding: 0 0.2em;">EN</span>
 									</span>
 								</li>
 								<li><a href="#menu">Menu</a></li>
@@ -107,6 +107,14 @@
 							<!-- Articles Tiles Container -->
 							<section class="tiles" id="substack-tiles">
 							</section>
+
+							<!-- Кнопка додаткової підгрузки -->
+							<div id="load-more-box" style="text-align: center; margin-top: 2.5em;">
+								<button id="loadMoreBtn" onclick="renderNextBatch()" class="button" style="border-radius: 8px;">
+									<span data-lang="ua">Завантажити ще</span>
+									<span data-lang="en" style="display: none;">Load More</span>
+								</button>
+							</div>
 						</div>
 					</div>
 
@@ -173,44 +181,11 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 
-		<!-- 1. Language Switcher Script -->
+		<!-- Script: Language & Articles Dynamic Renderer -->
 			<script>
-				let currentLanguage = localStorage.getItem('selected_lang') || 'ua';
-
-				function setLanguage(lang) {
-					currentLanguage = lang;
-					document.querySelectorAll('[data-lang]').forEach(el => {
-						if (el.getAttribute('data-lang') === lang) {
-							el.style.display = '';
-						} else {
-							el.style.display = 'none';
-						}
-					});
-
-					const btnUa = document.getElementById('btn-ua');
-					const btnEn = document.getElementById('btn-en');
-
-					if (btnUa && btnEn) {
-						if (lang === 'ua') {
-							btnUa.style.opacity = '1';
-							btnUa.style.color = '#f59e0b';
-							btnEn.style.opacity = '0.5';
-							btnEn.style.color = 'inherit';
-						} else {
-							btnEn.style.opacity = '1';
-							btnEn.style.color = '#f59e0b';
-							btnUa.style.opacity = '0.5';
-							btnUa.style.color = 'inherit';
-						}
-					}
-
-					localStorage.setItem('selected_lang', lang);
-				}
-			</script>
-
-		<!-- 2. Lazy Loading / Infinite Scroll Articles Renderer -->
-			<script>
-				const postsData = [
+				// Повна база статей (додавайте сюди нові публікації)
+				const allPosts = [
+					// --- Українська версія ---
 					{
 						title: "Множинне зведення до нуля: Філософія геноциду в умовах пізньокапіталістичної війни",
 						link: "https://olehhello.substack.com/p/755",
@@ -233,6 +208,15 @@
 						lang: "ua"
 					},
 					{
+						title: "Відповідальності: Чому масштаб системних криз перевершує людське сприйняття",
+						link: "https://olehhello.substack.com/p/responsibility-scale",
+						img: "https://substack-post-media.s3.amazonaws.com/public/images/d8ba320d-80df-443d-8c2a-b5925da3881e_1672x941.png",
+						desc: "Роздуми про розмивання індивідуальної відповідальності у складних мережевих структурах...",
+						lang: "ua"
+					},
+
+					// --- English Version ---
+					{
 						title: "Multiple Reduction to Zero: The Philosophy of Genocide in Late-Capitalist Warfare",
 						link: "https://olehhello.substack.com/p/multiple-reduction-to-zero-the-philosophy",
 						img: "https://substack-post-media.s3.amazonaws.com/public/images/781a1f06-e501-4a98-ba95-1e844a7435ea_784x1168.jpeg",
@@ -245,25 +229,69 @@
 						img: "https://substack-post-media.s3.amazonaws.com/public/images/d8ba320d-80df-443d-8c2a-b5925da3881e_1672x941.png",
 						desc: "The contemporary Ukrainian public sphere increasingly resembles a hermetically sealed system...",
 						lang: "en"
+					},
+					{
+						title: "Profession: Cog. Why the 'Loss of the World' is the Only Ticket to Modern Professional Circles",
+						link: "https://olehhello.substack.com/p/profession-cog-en",
+						img: "https://substack-post-media.s3.amazonaws.com/public/images/65574de3-89ef-4974-a4ad-ca3c1b230db7_784x1168.jpeg",
+						desc: "An analytical critique of modern bureaucracy and individual agency reduction...",
+						lang: "en"
+					},
+					{
+						title: "Scale of Responsibility: Systemic Crises vs Human Perception",
+						link: "https://olehhello.substack.com/p/responsibility-scale-en",
+						img: "https://substack-post-media.s3.amazonaws.com/public/images/d8ba320d-80df-443d-8c2a-b5925da3881e_1672x941.png",
+						desc: "Philosophical notes on institutional accountability in late modernity...",
+						lang: "en"
 					}
 				];
 
+				let currentLang = localStorage.getItem('selected_lang') || 'ua';
 				let currentIndex = 0;
 				const BATCH_SIZE = 3;
-				let isLoading = false;
+
+				function getFilteredPosts() {
+					return allPosts.filter(p => p.lang === currentLang);
+				}
+
+				function updateUIStaticText() {
+					document.querySelectorAll('[data-lang]').forEach(el => {
+						if (el.getAttribute('data-lang') === currentLang) {
+							el.style.display = '';
+						} else {
+							el.style.display = 'none';
+						}
+					});
+
+					const btnUa = document.getElementById('btn-ua');
+					const btnEn = document.getElementById('btn-en');
+					if (btnUa && btnEn) {
+						if (currentLang === 'ua') {
+							btnUa.style.opacity = '1';
+							btnUa.style.color = '#f59e0b';
+							btnEn.style.opacity = '0.5';
+							btnEn.style.color = 'inherit';
+						} else {
+							btnEn.style.opacity = '1';
+							btnEn.style.color = '#f59e0b';
+							btnUa.style.opacity = '0.5';
+							btnUa.style.color = 'inherit';
+						}
+					}
+				}
 
 				function renderNextBatch() {
 					const container = document.getElementById('substack-tiles');
-					if (!container || currentIndex >= postsData.length) return;
+					const filtered = getFilteredPosts();
+					if (!container) return;
 
-					isLoading = true;
 					const styles = ['style1', 'style2', 'style3', 'style4', 'style5', 'style6'];
-					const nextBatch = postsData.slice(currentIndex, currentIndex + BATCH_SIZE);
+					const nextBatch = filtered.slice(currentIndex, currentIndex + BATCH_SIZE);
 
 					nextBatch.forEach((item, idx) => {
 						const styleClass = styles[(currentIndex + idx) % styles.length];
 						const html = `
-							<article class="${styleClass}" data-lang="${item.lang}">
+							<article class="${styleClass}">
 								<span class="image">
 									<img src="${item.img}" alt="${item.title}" />
 								</span>
@@ -278,25 +306,49 @@
 						container.insertAdjacentHTML('beforeend', html);
 					});
 
-					currentIndex += BATCH_SIZE;
-					setLanguage(currentLanguage);
-					isLoading = false;
+					currentIndex += nextBatch.length;
+
+					// Ховаємо кнопку "Завантажити ще", якщо всі статті поточної мови відображено
+					const loadMoreBox = document.getElementById('load-more-box');
+					if (loadMoreBox) {
+						if (currentIndex >= filtered.length) {
+							loadMoreBox.style.display = 'none';
+						} else {
+							loadMoreBox.style.display = 'block';
+						}
+					}
 				}
 
-				// Автоматична підгрузка нових статей при прокручуванні вниз
+				function switchLanguage(lang) {
+					currentLang = lang;
+					localStorage.setItem('selected_lang', lang);
+					updateUIStaticText();
+					
+					// Скидаємо лічильник і перемальовуємо плитки
+					currentIndex = 0;
+					const container = document.getElementById('substack-tiles');
+					if (container) container.innerHTML = '';
+					
+					renderNextBatch();
+				}
+
+				// Автопідгрузка при скролі
 				window.addEventListener('scroll', () => {
-					if (isLoading) return;
-					if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 400) {
-						renderNextBatch();
+					const filtered = getFilteredPosts();
+					if (currentIndex < filtered.length) {
+						if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
+							renderNextBatch();
+						}
 					}
 				});
 
 				document.addEventListener('DOMContentLoaded', () => {
+					updateUIStaticText();
 					renderNextBatch();
 				});
 			</script>
 
-		<!-- 3. Modal Raydium Swap Script -->
+		<!-- Modal Raydium Swap Script -->
 			<script>
 				window.addEventListener('DOMContentLoaded', () => {
 					const buyBtn = document.getElementById('buyBtn');
