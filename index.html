@@ -12,34 +12,44 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		
-		<style>
-			/* Прибираємо кольорові оверлеї Phantom */
-			.tiles article > .image:before {
-				display: none !important;
-			}
-			/* Вирівнюємо всі зображення за єдиною висотою та пропорціями */
-			.tiles article > .image {
-				height: 100% !important;
-				min-height: 320px !important;
-				max-height: 360px !important;
-				overflow: hidden !important;
-			}
-			.tiles article > .image img {
-				width: 100% !important;
-				height: 100% !important;
-				object-fit: cover !important;
-				object-position: center !important;
-				filter: none !important;
-				opacity: 1 !important;
-				transition: transform 0.5s ease !important;
-			}
-			.tiles article > a {
-				background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%) !important;
-			}
-			.tiles article:hover > .image img {
-				transform: scale(1.08) !important;
-			}
-		</style>
+<style>
+	/* Прибираємо стандартні кольорові оверлеї Phantom */
+	.tiles article > .image:before {
+		display: none !important;
+	}
+
+	/* Налаштування контейнера картинки */
+	.tiles article > .image {
+		height: 100% !important;
+		min-height: 320px !important;
+		max-height: 360px !important;
+		overflow: hidden !important;
+	}
+
+	/* Початковий стан картинки: затемнена (затуманена) та трохи розмита */
+	.tiles article > .image img {
+		width: 100% !important;
+		height: 100% !important;
+		object-fit: cover !important;
+		object-position: center !important;
+		filter: brightness(0.4) blur(1px) !important; /* Затемнення 60% і легкий блур для чіткого тексту */
+		opacity: 0.85 !important;
+		transition: filter 0.4s ease, transform 0.5s ease, opacity 0.4s ease !important;
+	}
+
+	/* Текстовий плашки-градієнт під заголовками */
+	.tiles article > a {
+		background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%) !important;
+	}
+
+	/* Стан при наведенні: зображення повертає 100% фокус, яскравість і плавно наближається */
+	.tiles article:hover > .image img {
+		filter: brightness(1) blur(0px) !important; /* Повний фокус і яскравість */
+		opacity: 1 !important;
+		transform: scale(1.08) !important; /* Плавне наближення */
+	}
+</style>
+		
 	</head>
 	<body class="is-preload">
 
