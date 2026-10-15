@@ -13,11 +13,22 @@
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		
 		<style>
-			/* Прибираємо кольорові оверлеї Phantom, залишаючи чисті ілюстрації */
+			/* Прибираємо кольорові оверлеї Phantom */
 			.tiles article > .image:before {
 				display: none !important;
 			}
+			/* Вирівнюємо всі зображення за єдиною висотою та пропорціями */
+			.tiles article > .image {
+				height: 100% !important;
+				min-height: 320px !important;
+				max-height: 360px !important;
+				overflow: hidden !important;
+			}
 			.tiles article > .image img {
+				width: 100% !important;
+				height: 100% !important;
+				object-fit: cover !important;
+				object-position: center !important;
 				filter: none !important;
 				opacity: 1 !important;
 				transition: transform 0.5s ease !important;
@@ -89,15 +100,12 @@
 						<div class="inner">
 							<header>
 								<h1>Blindspots</h1>
-								<!-- Український опис -->
 								<p data-lang="ua">Це сліпі місця мейнстріму, те що ви завжди хотіли дізнатися, але боялися запитати.</p>
-								<!-- Англійський опис -->
 								<p data-lang="en" style="display: none;">These are the blind spots of the mainstream — what you always wanted to know, but were afraid to ask.</p>
 							</header>
 
 							<!-- Articles Tiles Container -->
 							<section class="tiles" id="substack-tiles">
-								<!-- Статті завантажуються скріптом без збоїв -->
 							</section>
 						</div>
 					</div>
@@ -139,7 +147,6 @@
 								<li><a href="https://www.instagram.com/hello.oleh/" class="icon brands style2 fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
 							</ul>
 
-							<!-- Плашка $WTF під блоком іконок -->
 							<div style="margin-top: 1.5em; padding: 0.8em 1em; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; background: rgba(255, 255, 255, 0.03);">
 								<p style="margin: 0; font-size: 0.85em;">
 									🚀 Powered by <strong style="color: #f59e0b;">$WTF (Wanna Trump Fish)</strong><br />
@@ -168,7 +175,10 @@
 
 		<!-- 1. Language Switcher Script -->
 			<script>
+				let currentLanguage = localStorage.getItem('selected_lang') || 'ua';
+
 				function setLanguage(lang) {
+					currentLanguage = lang;
 					document.querySelectorAll('[data-lang]').forEach(el => {
 						if (el.getAttribute('data-lang') === lang) {
 							el.style.display = '';
@@ -198,7 +208,7 @@
 				}
 			</script>
 
-		<!-- 2. Guaranteed Articles Renderer (Без зовнішніх API) -->
+		<!-- 2. Lazy Loading / Infinite Scroll Articles Renderer -->
 			<script>
 				const postsData = [
 					{
@@ -213,6 +223,13 @@
 						link: "https://olehhello.substack.com/p/eastern-despotism-instead-of-a-republic",
 						img: "https://substack-post-media.s3.amazonaws.com/public/images/d8ba320d-80df-443d-8c2a-b5925da3881e_1672x941.png",
 						desc: "Аналіз сучасного публічного дискурсу, медійного шарлатанства та герметично за закритої системи...",
+						lang: "ua"
+					},
+					{
+						title: "Професія: гвинтик. Чому «втрата світу» — це єдиний квиток у сучасну професійну спільноту",
+						link: "https://olehhello.substack.com/p/profession-cog",
+						img: "https://substack-post-media.s3.amazonaws.com/public/images/65574de3-89ef-4974-a4ad-ca3c1b230db7_784x1168.jpeg",
+						desc: "Аналітичний розбір функціоналу людини в бюрократичних та корпоративних системах...",
 						lang: "ua"
 					},
 					{
@@ -231,15 +248,20 @@
 					}
 				];
 
-				function renderArticles() {
+				let currentIndex = 0;
+				const BATCH_SIZE = 3;
+				let isLoading = false;
+
+				function renderNextBatch() {
 					const container = document.getElementById('substack-tiles');
-					if (!container) return;
+					if (!container || currentIndex >= postsData.length) return;
 
-					container.innerHTML = '';
+					isLoading = true;
 					const styles = ['style1', 'style2', 'style3', 'style4', 'style5', 'style6'];
+					const nextBatch = postsData.slice(currentIndex, currentIndex + BATCH_SIZE);
 
-					postsData.forEach((item, index) => {
-						const styleClass = styles[index % styles.length];
+					nextBatch.forEach((item, idx) => {
+						const styleClass = styles[(currentIndex + idx) % styles.length];
 						const html = `
 							<article class="${styleClass}" data-lang="${item.lang}">
 								<span class="image">
@@ -256,11 +278,22 @@
 						container.insertAdjacentHTML('beforeend', html);
 					});
 
-					const savedLang = localStorage.getItem('selected_lang') || 'ua';
-					setLanguage(savedLang);
+					currentIndex += BATCH_SIZE;
+					setLanguage(currentLanguage);
+					isLoading = false;
 				}
 
-				document.addEventListener('DOMContentLoaded', renderArticles);
+				// Автоматична підгрузка нових статей при прокручуванні вниз
+				window.addEventListener('scroll', () => {
+					if (isLoading) return;
+					if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 400) {
+						renderNextBatch();
+					}
+				});
+
+				document.addEventListener('DOMContentLoaded', () => {
+					renderNextBatch();
+				});
 			</script>
 
 		<!-- 3. Modal Raydium Swap Script -->
