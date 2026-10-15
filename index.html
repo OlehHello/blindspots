@@ -10,29 +10,29 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
-		<style>
-	/* Прибираємо кольорові оверлеї Phantom з плиток */
-	.tiles article > .image:before {
-		display: none !important;
-	}
-	.tiles article > .image img {
-		filter: none !important;
-		opacity: 1 !important;
-		transition: transform 0.5s ease;
-	}
-	/* Градієнт під текстом для чіткості та збереження ефекту наближення (зуму) */
-	.tiles article > a {
-		background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%) !important;
-	}
-	.tiles article:hover > .image img {
-		transform: scale(1.08) !important;
-	}
-</style>
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		
+		<style>
+			/* Прибираємо кольорові оверлеї Phantom, залишаючи чисті ілюстрації */
+			.tiles article > .image:before {
+				display: none !important;
+			}
+			.tiles article > .image img {
+				filter: none !important;
+				opacity: 1 !important;
+				transition: transform 0.5s ease !important;
+			}
+			.tiles article > a {
+				background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%) !important;
+			}
+			.tiles article:hover > .image img {
+				transform: scale(1.08) !important;
+			}
+		</style>
 	</head>
 	<body class="is-preload">
 
-		<!-- Top Sponsor Bar (Світла, Sticky, Клубне залучення) -->
+		<!-- Top Sponsor Bar (Світла, Sticky) -->
 		<div style="position: sticky; top: 0; z-index: 9999; background: rgba(247, 247, 247, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(245, 158, 11, 0.5); padding: 0.5em 1em; text-align: center; font-size: 0.85em; color: #333; width: 100%;">
 			<span>
 				<span data-lang="ua">⚡ <a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #333; text-decoration: none; border-bottom: 1px dotted rgba(0,0,0,0.4);">Ставайте частиною проєкту <strong>Blindspots</strong> через токен <strong>$WTF</strong></a></span>
@@ -95,85 +95,10 @@
 								<p data-lang="en" style="display: none;">These are the blind spots of the mainstream — what you always wanted to know, but were afraid to ask.</p>
 							</header>
 
-<!-- Articles Tiles Container -->
-<section class="tiles" id="substack-tiles">
-	<p style="width: 100%; text-align: center; padding: 2em; opacity: 0.7;">Завантаження публікацій...</p>
-</section>
-
-<!-- Автоматичне підтягування всіх статей з Substack -->
-<script>
-	async function loadSubstackPosts() {
-		// Ліміт count=50 дозволяє забрати всі архівні публікації
-		const rssUrl = 'https://olehhello.substack.com/feed';
-		const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&api_key=&count=50`;
-		const container = document.getElementById('substack-tiles');
-
-		try {
-			const res = await fetch(apiUrl);
-			const data = await res.json();
-
-			if (!data.items || data.items.length === 0) {
-				container.innerHTML = '<p style="width:100%; text-align:center;">Публікації не знайдені.</p>';
-				return;
-			}
-
-			container.innerHTML = '';
-
-			data.items.forEach((item) => {
-				// Витягуємо зображення обкладинки
-				let imgUrl = item.thumbnail || '';
-				if (!imgUrl && item.enclosure && item.enclosure.link) {
-					imgUrl = item.enclosure.link;
-				}
-				if (!imgUrl) {
-					// Якщо обкладинка відсутня у фіді, беремо першу картинку з тексту статті
-					const tmp = document.createElement('div');
-					tmp.innerHTML = item.content || item.description || '';
-					const firstImg = tmp.querySelector('img');
-					imgUrl = firstImg ? firstImg.src : 'images/pic01.jpg';
-				}
-
-				// Очищаємо опис від HTML-тегів для анонсу
-				const tmpDiv = document.createElement('div');
-				tmpDiv.innerHTML = item.description || item.content || '';
-				const cleanText = tmpDiv.textContent || tmpDiv.innerText || '';
-				const shortDesc = cleanText.substring(0, 110) + '...';
-
-				// Автовизначення мови (наявність кирилиці)
-				const isUa = /[а-яіїєґ]/i.test(item.title);
-				const langAttr = isUa ? 'ua' : 'en';
-
-				const articleHtml = `
-					<article data-lang="${langAttr}">
-						<span class="image">
-							<img src="${imgUrl}" alt="${item.title}" />
-						</span>
-						<a href="${item.link}" target="_blank">
-							<h2>${item.title}</h2>
-							<div class="content">
-								<p>${shortDesc}</p>
-							</div>
-						</a>
-					</article>
-				`;
-
-				container.insertAdjacentHTML('beforeend', articleHtml);
-			});
-
-			// Застосовуємо вибір мови
-			const currentLang = localStorage.getItem('selected_lang') || 'ua';
-			if (typeof setLanguage === 'function') {
-				setLanguage(currentLang);
-			}
-
-		} catch (err) {
-			console.error('Помилка завантаження RSS Substack:', err);
-			container.innerHTML = '<p style="width:100%; text-align:center;"><a href="https://olehhello.substack.com" target="_blank" class="button">Читати всі публікації на Substack &rarr;</a></p>';
-		}
-	}
-
-	document.addEventListener('DOMContentLoaded', loadSubstackPosts);
-</script>	
+							<!-- Articles Tiles Container -->
+							<section class="tiles" id="substack-tiles">
+								<!-- Статті завантажуються скріптом без збоїв -->
+							</section>
 						</div>
 					</div>
 
@@ -217,7 +142,7 @@
 							<!-- Плашка $WTF під блоком іконок -->
 							<div style="margin-top: 1.5em; padding: 0.8em 1em; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; background: rgba(255, 255, 255, 0.03);">
 								<p style="margin: 0; font-size: 0.85em;">
-									🚀 Powered by <strong style="color: #f59e0b;">$WTF (WannaTrumpF)</strong><br />
+									🚀 Powered by <strong style="color: #f59e0b;">$WTF (Wanna Trump Fish)</strong><br />
 									<a href="https://wannatrumpf.pages.dev" target="_blank" style="border-bottom: 1px dotted;">
 										<span data-lang="ua">Офіційний сайт токена &rarr;</span>
 										<span data-lang="en" style="display: none;">Official token website &rarr;</span>
@@ -241,7 +166,7 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 
-		<!-- Language Switcher Script -->
+		<!-- 1. Language Switcher Script -->
 			<script>
 				function setLanguage(lang) {
 					document.querySelectorAll('[data-lang]').forEach(el => {
@@ -255,28 +180,90 @@
 					const btnUa = document.getElementById('btn-ua');
 					const btnEn = document.getElementById('btn-en');
 
-					if (lang === 'ua') {
-						btnUa.style.opacity = '1';
-						btnUa.style.color = '#f59e0b';
-						btnEn.style.opacity = '0.5';
-						btnEn.style.color = 'inherit';
-					} else {
-						btnEn.style.opacity = '1';
-						btnEn.style.color = '#f59e0b';
-						btnUa.style.opacity = '0.5';
-						btnUa.style.color = 'inherit';
+					if (btnUa && btnEn) {
+						if (lang === 'ua') {
+							btnUa.style.opacity = '1';
+							btnUa.style.color = '#f59e0b';
+							btnEn.style.opacity = '0.5';
+							btnEn.style.color = 'inherit';
+						} else {
+							btnEn.style.opacity = '1';
+							btnEn.style.color = '#f59e0b';
+							btnUa.style.opacity = '0.5';
+							btnUa.style.color = 'inherit';
+						}
 					}
 
 					localStorage.setItem('selected_lang', lang);
 				}
-
-				document.addEventListener('DOMContentLoaded', () => {
-					const savedLang = localStorage.getItem('selected_lang') || 'ua';
-					setLanguage(savedLang);
-				});
 			</script>
 
-		<!-- Modal Raydium Swap Script -->
+		<!-- 2. Guaranteed Articles Renderer (Без зовнішніх API) -->
+			<script>
+				const postsData = [
+					{
+						title: "Множинне зведення до нуля: Філософія геноциду в умовах пізньокапіталістичної війни",
+						link: "https://olehhello.substack.com/p/755",
+						img: "https://substack-post-media.s3.amazonaws.com/public/images/65574de3-89ef-4974-a4ad-ca3c1b230db7_784x1168.jpeg",
+						desc: "Вступ до аналізу пізньокапіталістичної війни та системних механізмів зведення людського ресурсу до нуля...",
+						lang: "ua"
+					},
+					{
+						title: "Східна деспотія замість республіки: як комічний імпровіз ОП маскується медійним шарлатанством",
+						link: "https://olehhello.substack.com/p/eastern-despotism-instead-of-a-republic",
+						img: "https://substack-post-media.s3.amazonaws.com/public/images/d8ba320d-80df-443d-8c2a-b5925da3881e_1672x941.png",
+						desc: "Аналіз сучасного публічного дискурсу, медійного шарлатанства та герметично за закритої системи...",
+						lang: "ua"
+					},
+					{
+						title: "Multiple Reduction to Zero: The Philosophy of Genocide in Late-Capitalist Warfare",
+						link: "https://olehhello.substack.com/p/multiple-reduction-to-zero-the-philosophy",
+						img: "https://substack-post-media.s3.amazonaws.com/public/images/781a1f06-e501-4a98-ba95-1e844a7435ea_784x1168.jpeg",
+						desc: "Introduction to the philosophical examination of late-capitalist warfare dynamics and destruction mechanisms...",
+						lang: "en"
+					},
+					{
+						title: "Eastern Despotism Instead of a Republic: How the Office of the President’s Comedic Impromptu is Masked by Media Charlatanism",
+						link: "https://olehhello.substack.com/p/eastern-despotism-instead-of-a-republic",
+						img: "https://substack-post-media.s3.amazonaws.com/public/images/d8ba320d-80df-443d-8c2a-b5925da3881e_1672x941.png",
+						desc: "The contemporary Ukrainian public sphere increasingly resembles a hermetically sealed system...",
+						lang: "en"
+					}
+				];
+
+				function renderArticles() {
+					const container = document.getElementById('substack-tiles');
+					if (!container) return;
+
+					container.innerHTML = '';
+					const styles = ['style1', 'style2', 'style3', 'style4', 'style5', 'style6'];
+
+					postsData.forEach((item, index) => {
+						const styleClass = styles[index % styles.length];
+						const html = `
+							<article class="${styleClass}" data-lang="${item.lang}">
+								<span class="image">
+									<img src="${item.img}" alt="${item.title}" />
+								</span>
+								<a href="${item.link}" target="_blank">
+									<h2>${item.title}</h2>
+									<div class="content">
+										<p>${item.desc}</p>
+									</div>
+								</a>
+							</article>
+						`;
+						container.insertAdjacentHTML('beforeend', html);
+					});
+
+					const savedLang = localStorage.getItem('selected_lang') || 'ua';
+					setLanguage(savedLang);
+				}
+
+				document.addEventListener('DOMContentLoaded', renderArticles);
+			</script>
+
+		<!-- 3. Modal Raydium Swap Script -->
 			<script>
 				window.addEventListener('DOMContentLoaded', () => {
 					const buyBtn = document.getElementById('buyBtn');
@@ -351,5 +338,6 @@
 					}
 				});
 			</script>
+
 	</body>
 </html>
