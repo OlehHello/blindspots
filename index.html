@@ -13,6 +13,46 @@
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		
 		<style>
+			/* --- 3D ОБЕРТАННЯ МОНЕТИ В ШАПЦІ --- */
+			.coin-container {
+				display: inline-block;
+				width: 26px;
+				height: 26px;
+				perspective: 1000px;
+				vertical-align: middle;
+				margin: 0 6px;
+			}
+
+			.coin-flipper {
+				width: 100%;
+				height: 100%;
+				position: relative;
+				transform-style: preserve-3d;
+				animation: spinCoin 4s linear infinite;
+			}
+
+			.coin-face {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				backface-visibility: hidden;
+				border-radius: 50%;
+				object-fit: cover;
+			}
+
+			.coin-front {
+				transform: rotateY(0deg);
+			}
+
+			.coin-back {
+				transform: rotateY(180deg);
+			}
+
+			@keyframes spinCoin {
+				0% { transform: rotateY(0deg); }
+				100% { transform: rotateY(360deg); }
+			}
+
 			/* --- КАРУСЕЛЬ СТАТЕЙ --- */
 			.carousel-wrapper {
 				width: 100%;
@@ -30,7 +70,7 @@
 			}
 
 			.carousel-wrapper:hover .carousel-track {
-				animation-play-state: paused; /* Зупинка при наведенні */
+				animation-play-state: paused;
 			}
 
 			@keyframes scrollCarousel {
@@ -38,7 +78,6 @@
 				100% { transform: translateX(-50%); }
 			}
 
-			/* Стилі карточки у каруселі */
 			.carousel-track article {
 				width: 320px;
 				flex-shrink: 0;
@@ -92,7 +131,6 @@
 				transition: opacity 0.4s ease, transform 0.4s ease !important;
 			}
 
-			/* HOVER-ефект плитки в каруселі */
 			.carousel-track article:hover > .image img {
 				filter: brightness(1) blur(0px) !important;
 				opacity: 1 !important;
@@ -196,17 +234,40 @@
 	</head>
 	<body class="is-preload">
 
-		<!-- Top Sponsor Bar (Світла, Sticky) -->
+		<!-- Top Sponsor Bar з 3D-монеткою -->
 		<div style="position: sticky; top: 0; z-index: 9999; background: rgba(247, 247, 247, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(245, 158, 11, 0.5); padding: 0.5em 1em; text-align: center; font-size: 0.85em; color: #333; width: 100%;">
-			<span>
-				<span data-lang="ua" style="display: none;">⚡ <a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #333; text-decoration: none; border-bottom: 1px dotted rgba(0,0,0,0.4);">Ставайте частиною проєкту <strong>Blindspots</strong> через токен <strong>$WTF</strong></a></span>
-				<span data-lang="en">⚡ <a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #333; text-decoration: none; border-bottom: 1px dotted rgba(0,0,0,0.4);">Become part of the <strong>Blindspots</strong> project via the <strong>$WTF</strong> token</a></span>
-			</span>
-			<span style="margin-left: 0.8em; display: inline-flex; gap: 0.4em; align-items: center; vertical-align: middle;">
-				<button id="buyBtn" class="button primary small" style="height: 1.8em; line-height: 1.8em; padding: 0 0.8em; font-size: 0.8em; border-radius: 6px; background-color: #f59e0b !important; color: #000 !important; font-weight: bold; cursor: pointer; border: none;">
-					<span data-lang="ua" style="display: none;">Долучитися</span>
-					<span data-lang="en">Join</span>
-				</button>
+			<span style="display: inline-flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 0.2em;">
+				
+				<!-- Ліва монета -->
+				<div class="coin-container">
+					<div class="coin-flipper">
+						<img src="images/WTF1.webp" class="coin-face coin-front" alt="WTF" />
+						<img src="images/WTF2.webp" class="coin-face coin-back" alt="WTF" />
+					</div>
+				</div>
+
+				<!-- Український текст -->
+				<span data-lang="ua" style="display: none;">
+					<button id="buyBtnUA" class="button primary small" style="height: 1.9em; line-height: 1.9em; padding: 0 0.8em; font-size: 0.85em; border-radius: 6px; background-color: #f59e0b !important; color: #000 !important; font-weight: bold; cursor: pointer; border: none; margin-right: 0.3em; display: inline-block;">Долучайся</button>
+					до фанклубу проєкту <strong>Blindspots</strong> через токен 
+					<a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #d97706; text-decoration: none; border-bottom: 1px dotted #d97706; font-weight: bold;">$WTF</a>
+				</span>
+
+				<!-- Англійський текст -->
+				<span data-lang="en">
+					<button id="buyBtnEN" class="button primary small" style="height: 1.9em; line-height: 1.9em; padding: 0 0.8em; font-size: 0.85em; border-radius: 6px; background-color: #f59e0b !important; color: #000 !important; font-weight: bold; cursor: pointer; border: none; margin-right: 0.3em; display: inline-block;">Join</button>
+					the <strong>Blindspots</strong> fan club via 
+					<a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #d97706; text-decoration: none; border-bottom: 1px dotted #d97706; font-weight: bold;">$WTF</a> token
+				</span>
+
+				<!-- Права монета -->
+				<div class="coin-container">
+					<div class="coin-flipper">
+						<img src="images/WTF1.webp" class="coin-face coin-front" alt="WTF" />
+						<img src="images/WTF2.webp" class="coin-face coin-back" alt="WTF" />
+					</div>
+				</div>
+
 			</span>
 		</div>
 
@@ -262,14 +323,13 @@
 								<p data-lang="en" style="font-size: 1.1em;">These are the blind spots of the mainstream — what you always wanted to know, but were afraid to ask.</p>
 							</header>
 
-							<!-- Безперервна горизонтальна карусель статей -->
+							<!-- Карусель статей -->
 							<div class="carousel-wrapper">
 								<div class="carousel-track" id="carousel-track">
-									<!-- Автоматично заповнюється скриптом у рандомному порядку -->
 								</div>
 							</div>
 
-							<!-- Кнопка відкриття списку статей -->
+							<!-- Кнопка «Усі статті» -->
 							<div style="text-align: center; margin-top: 1em; margin-bottom: 2em;">
 								<button onclick="openArticlesModal(event)" class="button primary" style="border-radius: 8px; background-color: #f59e0b !important; color: #000 !important; font-weight: bold;">
 									<span data-lang="ua" style="display: none;">📚 Усі статті</span>
@@ -284,8 +344,9 @@
 				<footer id="footer">
 					<div class="inner">
 						<section>
-							<h2 data-lang="ua" style="display: none;">Напишіть мені</h2>
-							<h2 data-lang="en">Get in touch</h2>
+							<!-- Оновлений заголовок форми зворотного зв'язку -->
+							<h2 data-lang="ua" style="display: none;">Хочете замовити статтю? Напишіть мені</h2>
+							<h2 data-lang="en">Want me to write an article? Get in touch</h2>
 							
 							<form method="post" action="https://formspree.io/f/your_form_id">
 								<div class="fields">
@@ -345,7 +406,6 @@
 					<span data-lang="en">📚 Articles Index</span>
 				</h3>
 				<ul class="modal-archive-list" id="modal-archive-list">
-					<!-- Динамічний чіткий список статей -->
 				</ul>
 			</div>
 		</div>
@@ -368,7 +428,6 @@
 					return (typeof allPosts !== 'undefined') ? allPosts.filter(p => p.lang === currentLang) : [];
 				}
 
-				// Перемішування масиву у випадковому порядку (Fisher-Yates Shuffle)
 				function shuffleArray(array) {
 					const arr = [...array];
 					for (let i = arr.length - 1; i > 0; i--) {
@@ -404,18 +463,13 @@
 					}
 				}
 
-				// Рендер безперервної каруселі
 				function renderCarousel() {
 					const track = document.getElementById('carousel-track');
 					const filtered = getFilteredPosts();
 					if (!track || filtered.length === 0) return;
 
 					track.innerHTML = '';
-
-					// Перемішуємо статті випадковим чином
 					const shuffled = shuffleArray(filtered);
-					
-					// Для безперервного безшовного скролу продублюємо масив
 					const displayPosts = [...shuffled, ...shuffled];
 
 					displayPosts.forEach(item => {
@@ -435,7 +489,6 @@
 					});
 				}
 
-				// Рендер модального списку статей (100% чіткі посилання)
 				function renderModalList() {
 					const listContainer = document.getElementById('modal-archive-list');
 					const filtered = getFilteredPosts();
@@ -481,79 +534,80 @@
 				});
 			</script>
 
-		<!-- Modal Raydium Swap Script -->
+		<!-- Modal Raydium Swap Script (Підключаємо до нових кнопок) -->
 			<script>
 				window.addEventListener('DOMContentLoaded', () => {
-					const buyBtn = document.getElementById('buyBtn');
+					function openSwapModal(e) {
+						if (e) e.preventDefault();
+						if (document.getElementById('jup-modal-overlay')) return;
 
-					if (buyBtn) {
-						buyBtn.addEventListener('click', (e) => {
-							e.preventDefault();
-							
-							if (document.getElementById('jup-modal-overlay')) return;
-
-							const overlay = document.createElement('div');
-							overlay.id = 'jup-modal-overlay';
-							Object.assign(overlay.style, {
-								position: 'fixed',
-								inset: '0',
-								backgroundColor: 'rgba(0, 0, 0, 0.75)',
-								zIndex: '999999',
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								backdropFilter: 'blur(4px)'
-							});
-
-							const modal = document.createElement('div');
-							Object.assign(modal.style, {
-								position: 'relative',
-								width: '100%',
-								maxWidth: '440px',
-								height: '600px',
-								maxHeight: '90vh',
-								borderRadius: '20px',
-								overflow: 'hidden',
-								boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
-							});
-
-							const closeBtn = document.createElement('button');
-							closeBtn.innerText = '✕';
-							Object.assign(closeBtn.style, {
-								position: 'absolute',
-								top: '12px',
-								right: '12px',
-								width: '32px',
-								height: '32px',
-								borderRadius: '50%',
-								border: 'none',
-								background: 'rgba(255, 255, 255, 0.2)',
-								color: '#fff',
-								fontSize: '18px',
-								cursor: 'pointer',
-								zIndex: '10'
-							});
-							closeBtn.onclick = () => overlay.remove();
-
-							const iframe = document.createElement('iframe');
-							iframe.src = 'https://raydium.io/swap/?inputMint=sol&outputMint=5dmy661GrH4hJUWQv78DuEkus3McKnm4DdY8tXmHXray';
-							Object.assign(iframe.style, {
-								width: '100%',
-								height: '100%',
-								border: 'none'
-							});
-
-							modal.appendChild(closeBtn);
-							modal.appendChild(iframe);
-							overlay.appendChild(modal);
-
-							overlay.onclick = (event) => {
-								if (event.target === overlay) overlay.remove();
-							};
-
-							document.body.appendChild(overlay);
+						const overlay = document.createElement('div');
+						overlay.id = 'jup-modal-overlay';
+						Object.assign(overlay.style, {
+							position: 'fixed',
+							inset: '0',
+							backgroundColor: 'rgba(0, 0, 0, 0.75)',
+							zIndex: '999999',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							backdropFilter: 'blur(4px)'
 						});
+
+						const modal = document.createElement('div');
+						Object.assign(modal.style, {
+							position: 'relative',
+							width: '100%',
+							maxWidth: '440px',
+							height: '600px',
+							maxHeight: '90vh',
+							borderRadius: '20px',
+							overflow: 'hidden',
+							boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
+						});
+
+						const closeBtn = document.createElement('button');
+						closeBtn.innerText = '✕';
+						Object.assign(closeBtn.style, {
+							position: 'absolute',
+							top: '12px',
+							right: '12px',
+							width: '32px',
+							height: '32px',
+							borderRadius: '50%',
+							border: 'none',
+							background: 'rgba(255, 255, 255, 0.2)',
+							color: '#fff',
+							fontSize: '18px',
+							cursor: 'pointer',
+							zIndex: '10'
+						});
+						closeBtn.onclick = () => overlay.remove();
+
+						const iframe = document.createElement('iframe');
+						iframe.src = 'https://raydium.io/swap/?inputMint=sol&outputMint=5dmy661GrH4hJUWQv78DuEkus3McKnm4DdY8tXmHXray';
+						Object.assign(iframe.style, {
+							width: '100%',
+							height: '100%',
+							border: 'none'
+						});
+
+						modal.appendChild(closeBtn);
+						modal.appendChild(iframe);
+						overlay.appendChild(modal);
+
+						overlay.onclick = (event) => {
+							if (event.target === overlay) overlay.remove();
+						};
+
+						document.body.appendChild(overlay);
 					}
+
+					const btnUA = document.getElementById('buyBtnUA');
+					const btnEN = document.getElementById('buyBtnEN');
+
+					if (btnUA) btnUA.addEventListener('click', openSwapModal);
+					if (btnEN) btnEN.addEventListener('click', openSwapModal);
 				});
 			</script>
 
