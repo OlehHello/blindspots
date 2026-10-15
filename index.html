@@ -17,29 +17,45 @@
 			<div id="wrapper">
 
 				<!-- Header -->
-					<header id="header">
-						<div class="inner">
+					<!-- Header -->
+<header id="header">
+	<div class="inner" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5em;">
 
-							<!-- Logo -->
-								<a href="index.html" class="logo">
-									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Blindspots</span>
-								</a>
+		<!-- Logo -->
+		<a href="index.html" class="logo">
+			<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Blindspots</span>
+		</a>
 
-							<!-- Nav -->
-								<nav>
-									<ul>
-										<li style="margin-right: 1em;">
-											<span id="lang-switch" style="background: rgba(255, 255, 255, 0.08); padding: 0.3em 0.6em; border-radius: 20px; font-size: 0.8em; font-weight: bold; cursor: pointer; user-select: none;">
-												<span id="btn-ua" onclick="setLanguage('ua')" style="color: #f59e0b; padding: 0 0.2em;">UA</span> | 
-												<span id="btn-en" onclick="setLanguage('en')" style="opacity: 0.5; padding: 0 0.2em;">EN</span>
-											</span>
-										</li>
-										<li><a href="#menu">Menu</a></li>
-									</ul>
-								</nav>
+		<!-- Featured Promo Bar (В один рядок) -->
+		<div style="display: flex; align-items: center; gap: 0.6em; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.4); padding: 0.3em 0.8em; border-radius: 20px; font-size: 0.8em;">
+			<span style="font-weight: bold; color: #f59e0b;">🔥 $WTF:</span>
+			
+			<a href="https://wannatrumpf.pages.dev" target="_blank" class="button small" style="height: 2em; line-height: 2em; padding: 0 0.8em; font-size: 0.75em; border-radius: 12px;">
+				<span data-lang="ua">Сайт</span>
+				<span data-lang="en" style="display: none;">Website</span>
+			</a>
 
-						</div>
-					</header>
+			<a href="https://raydium.io/swap/?inputMint=sol&outputMint=YOUR_TOKEN_MINT_ADDRESS" target="_blank" class="button primary small" style="height: 2em; line-height: 2em; padding: 0 0.8em; font-size: 0.75em; border-radius: 12px; background-color: #f59e0b !important; color: #000 !important; font-weight: bold;">
+				<span data-lang="ua">Купити</span>
+				<span data-lang="en" style="display: none;">Buy $WTF</span>
+			</a>
+		</div>
+
+		<!-- Nav & Language Switcher -->
+		<nav>
+			<ul>
+				<li style="margin-right: 1em;">
+					<span id="lang-switch" style="background: rgba(255, 255, 255, 0.08); padding: 0.3em 0.6em; border-radius: 20px; font-size: 0.8em; font-weight: bold; cursor: pointer; user-select: none;">
+						<span id="btn-ua" onclick="setLanguage('ua')" style="color: #f59e0b; padding: 0 0.2em;">UA</span> | 
+						<span id="btn-en" onclick="setLanguage('en')" style="opacity: 0.5; padding: 0 0.2em;">EN</span>
+					</span>
+				</li>
+				<li><a href="#menu">Menu</a></li>
+			</ul>
+		</nav>
+
+	</div>
+</header>
 
 				<!-- Menu -->
 					<nav id="menu">
