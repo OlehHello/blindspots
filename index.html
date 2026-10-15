@@ -13,79 +13,184 @@
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		
 		<style>
-			/* Прибираємо кольорові оверлеї Phantom */
-			.tiles article > .image:before {
-				display: none !important;
+			/* --- КАРУСЕЛЬ СТАТЕЙ --- */
+			.carousel-wrapper {
+				width: 100%;
+				overflow: hidden;
+				position: relative;
+				padding: 1em 0;
+				margin-bottom: 2em;
 			}
-			/* Вирівнюємо всі зображення за єдиною висотою та пропорціями */
-			.tiles article > .image {
-				height: 100% !important;
-				min-height: 320px !important;
-				max-height: 360px !important;
-				overflow: hidden !important;
+
+			.carousel-track {
+				display: flex;
+				gap: 1.5em;
+				width: max-content;
+				animation: scrollCarousel 40s linear infinite;
 			}
-			.tiles article > .image img {
-				width: 100% !important;
-				height: 100% !important;
-				object-fit: cover !important;
-				object-position: center !important;
+
+			.carousel-wrapper:hover .carousel-track {
+				animation-play-state: paused; /* Зупинка при наведенні */
+			}
+
+			@keyframes scrollCarousel {
+				0% { transform: translateX(0); }
+				100% { transform: translateX(-50%); }
+			}
+
+			/* Стилі карточки у каруселі */
+			.carousel-track article {
+				width: 320px;
+				flex-shrink: 0;
+				position: relative;
+				border-radius: 8px;
+				overflow: hidden;
+				height: 380px;
+			}
+
+			.carousel-track article > .image {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+			}
+
+			.carousel-track article > .image img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				object-position: center;
 				filter: brightness(0.4) blur(1px) !important;
 				opacity: 0.85 !important;
 				transition: filter 0.4s ease, transform 0.5s ease, opacity 0.4s ease !important;
 			}
-			.tiles article > a {
-				background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%) !important;
-				transition: background 0.4s ease !important;
-			}
-			.tiles article > a h2,
-			.tiles article > a .content {
-				transition: opacity 0.4s ease, transform 0.4s ease !important;
-				opacity: 1;
+
+			.carousel-track article > a {
+				position: absolute;
+				inset: 0;
+				padding: 1.5em;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-end;
+				background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 60%, transparent 100%) !important;
+				text-decoration: none !important;
+				border: none !important;
+				z-index: 2;
 			}
 
-			/* HOVER-ефект плиток */
-			.tiles article:hover > .image img {
+			.carousel-track article h2 {
+				color: #ffffff !important;
+				font-size: 1.1em !important;
+				line-height: 1.3 !important;
+				margin: 0 0 0.5em 0 !important;
+				transition: opacity 0.4s ease, transform 0.4s ease !important;
+			}
+
+			.carousel-track article .content p {
+				color: #dddddd !important;
+				font-size: 0.85em !important;
+				margin: 0 !important;
+				transition: opacity 0.4s ease, transform 0.4s ease !important;
+			}
+
+			/* HOVER-ефект плитки в каруселі */
+			.carousel-track article:hover > .image img {
 				filter: brightness(1) blur(0px) !important;
 				opacity: 1 !important;
 				transform: scale(1.08) !important;
 			}
-			.tiles article:hover > a {
+
+			.carousel-track article:hover > a {
 				background: transparent !important;
 			}
-			.tiles article:hover > a h2,
-			.tiles article:hover > a .content {
+
+			.carousel-track article:hover h2,
+			.carousel-track article:hover .content p {
 				opacity: 0.05 !important;
 				transform: translateY(5px) !important;
 			}
 
-			/* Стилі для текстового списку статей */
-			.archive-list {
+			/* --- МОДАЛЬНЕ ВІКНО СПИСКУ СТАТЕЙ --- */
+			.articles-modal-overlay {
+				position: fixed;
+				inset: 0;
+				background: rgba(10, 10, 12, 0.85);
+				backdrop-filter: blur(8px);
+				z-index: 99999;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				opacity: 0;
+				pointer-events: none;
+				transition: opacity 0.3s ease;
+			}
+
+			.articles-modal-overlay.active {
+				opacity: 1;
+				pointer-events: auto;
+			}
+
+			.articles-modal-content {
+				background: #1e1e24;
+				border: 1px solid rgba(255, 255, 255, 0.15);
+				border-radius: 12px;
+				width: 90%;
+				max-width: 700px;
+				max-height: 80vh;
+				padding: 2em;
+				display: flex;
+				flex-direction: column;
+				box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+				position: relative;
+			}
+
+			.articles-modal-close {
+				position: absolute;
+				top: 1em;
+				right: 1em;
+				background: rgba(255, 255, 255, 0.1);
+				border: none;
+				color: #fff;
+				width: 36px;
+				height: 36px;
+				border-radius: 50%;
+				cursor: pointer;
+				font-size: 1.2em;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.articles-modal-close:hover {
+				background: #f59e0b;
+				color: #000;
+			}
+
+			.modal-archive-list {
 				list-style: none;
 				padding: 0;
-				margin: 2em 0;
-				border-top: 1px solid rgba(255, 255, 255, 0.15);
+				margin: 1em 0 0 0;
+				overflow-y: auto;
 			}
-			.archive-list li {
-				padding: 0.8em 0;
-				border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+			.modal-archive-list li {
+				padding: 0.9em 0;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+			}
+
+			.modal-archive-list li a {
+				color: #f3f4f6 !important;
+				font-size: 1.05em;
+				font-weight: 600;
+				text-decoration: none !important;
+				border-bottom: none !important;
+				transition: color 0.2s ease;
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				gap: 1em;
 			}
-			.archive-list li a {
-				border-bottom: none;
-				font-weight: 600;
-				font-size: 1.05em;
-				color: #fff;
-				transition: color 0.2s ease;
-			}
-			.archive-list li a:hover {
+
+			.modal-archive-list li a:hover {
 				color: #f59e0b !important;
-			}
-			.archive-list .arrow-icon {
-				opacity: 0.5;
-				font-size: 0.9em;
 			}
 		</style>
 	</head>
@@ -138,6 +243,12 @@
 						<h2>Menu</h2>
 						<ul>
 							<li><a href="index.html">Home</a></li>
+							<li>
+								<a href="#" onclick="openArticlesModal(event)">
+									<span data-lang="ua" style="display: none;">Статті</span>
+									<span data-lang="en">Articles</span>
+								</a>
+							</li>
 							<li><a href="https://olehhello.substack.com" target="_blank">Substack</a></li>
 							<li><a href="https://wannatrumpf.pages.dev" target="_blank">$WTF Token</a></li>
 						</ul>
@@ -146,34 +257,25 @@
 				<!-- Main -->
 					<div id="main">
 						<div class="inner">
-							<header style="margin-bottom: 2em;">
-								<!-- Прибрано велике слово "Blindspots" -->
+							<header style="margin-bottom: 1.5em;">
 								<p data-lang="ua" style="display: none; font-size: 1.1em;">Це сліпі місця мейнстріму, те що ви завжди хотіли дізнатися, але боялися запитати.</p>
 								<p data-lang="en" style="font-size: 1.1em;">These are the blind spots of the mainstream — what you always wanted to know, but were afraid to ask.</p>
 							</header>
 
-							<!-- Articles Tiles Container -->
-							<section class="tiles" id="substack-tiles">
-							</section>
-
-							<!-- Кнопка додаткової підгрузки плит -->
-							<div id="load-more-box" style="text-align: center; margin-top: 2.5em; margin-bottom: 3em;">
-								<button id="loadMoreBtn" onclick="renderNextBatch()" class="button" style="border-radius: 8px;">
-									<span data-lang="ua" style="display: none;">Завантажити ще</span>
-									<span data-lang="en">Load More</span>
-								</button>
+							<!-- Безперервна горизонтальна карусель статей -->
+							<div class="carousel-wrapper">
+								<div class="carousel-track" id="carousel-track">
+									<!-- Автоматично заповнюється скриптом у рандомному порядку -->
+								</div>
 							</div>
 
-							<!-- Секція повного текстового списку статей (All Articles Index) -->
-							<section id="articles-index" style="margin-top: 4em; padding-top: 2em; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-								<h3>
-									<span data-lang="ua" style="display: none;">📚 Повний список публікацій</span>
-									<span data-lang="en">📚 Complete Articles Index</span>
-								</h3>
-								<ul class="archive-list" id="archive-list-container">
-									<!-- Динамічно заповнюється всіма статтями без обмежень -->
-								</ul>
-							</section>
+							<!-- Кнопка відкриття списку статей -->
+							<div style="text-align: center; margin-top: 1em; margin-bottom: 2em;">
+								<button onclick="openArticlesModal(event)" class="button primary" style="border-radius: 8px; background-color: #f59e0b !important; color: #000 !important; font-weight: bold;">
+									<span data-lang="ua" style="display: none;">📚 Усі статті</span>
+									<span data-lang="en">📚 All Articles</span>
+								</button>
+							</div>
 
 						</div>
 					</div>
@@ -234,6 +336,20 @@
 
 			</div>
 
+		<!-- Модальне вікно зі списком статей -->
+		<div class="articles-modal-overlay" id="articlesModal" onclick="closeArticlesModal(event)">
+			<div class="articles-modal-content" onclick="event.stopPropagation()">
+				<button class="articles-modal-close" onclick="closeArticlesModal(event)">✕</button>
+				<h3 style="margin-bottom: 0.5em; color: #fff;">
+					<span data-lang="ua" style="display: none;">📚 Список статей</span>
+					<span data-lang="en">📚 Articles Index</span>
+				</h3>
+				<ul class="modal-archive-list" id="modal-archive-list">
+					<!-- Динамічний чіткий список статей -->
+				</ul>
+			</div>
+		</div>
+
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
@@ -244,15 +360,22 @@
 		<!-- Підключаємо зовнішній файл зі статтями -->
 			<script src="posts.js"></script>
 
-		<!-- Script: Language & Dual-View Dynamic Renderer -->
+		<!-- Script: Carousel, Randomizer & Modal Logic -->
 			<script>
-				// Англійська за замовчуванням ('en')
 				let currentLang = localStorage.getItem('selected_lang') || 'en';
-				let currentIndex = 0;
-				const BATCH_SIZE = 3;
 
 				function getFilteredPosts() {
 					return (typeof allPosts !== 'undefined') ? allPosts.filter(p => p.lang === currentLang) : [];
+				}
+
+				// Перемішування масиву у випадковому порядку (Fisher-Yates Shuffle)
+				function shuffleArray(array) {
+					const arr = [...array];
+					for (let i = arr.length - 1; i > 0; i--) {
+						const j = Math.floor(Math.random() * (i + 1));
+						[arr[i], arr[j]] = [arr[j], arr[i]];
+					}
+					return arr;
 				}
 
 				function updateUIStaticText() {
@@ -281,91 +404,80 @@
 					}
 				}
 
-				// 1. Рендеринг плиток (пагінація)
-				function renderNextBatch() {
-					const container = document.getElementById('substack-tiles');
+				// Рендер безперервної каруселі
+				function renderCarousel() {
+					const track = document.getElementById('carousel-track');
 					const filtered = getFilteredPosts();
-					if (!container) return;
+					if (!track || filtered.length === 0) return;
 
-					const styles = ['style1', 'style2', 'style3', 'style4', 'style5', 'style6'];
-					const nextBatch = filtered.slice(currentIndex, currentIndex + BATCH_SIZE);
+					track.innerHTML = '';
 
-					nextBatch.forEach((item, idx) => {
-						const styleClass = styles[(currentIndex + idx) % styles.length];
-						const html = `
-							<article class="${styleClass}">
-								<span class="image">
-									<img src="${item.img}" alt="${item.title}" />
-								</span>
-								<a href="${item.link}" target="_blank">
-									<h2>${item.title}</h2>
-									<div class="content">
-										<p>${item.desc}</p>
-									</div>
-								</a>
-							</article>
+					// Перемішуємо статті випадковим чином
+					const shuffled = shuffleArray(filtered);
+					
+					// Для безперервного безшовного скролу продублюємо масив
+					const displayPosts = [...shuffled, ...shuffled];
+
+					displayPosts.forEach(item => {
+						const article = document.createElement('article');
+						article.innerHTML = `
+							<span class="image">
+								<img src="${item.img}" alt="${item.title}" />
+							</span>
+							<a href="${item.link}" target="_blank">
+								<h2>${item.title}</h2>
+								<div class="content">
+									<p>${item.desc || ''}</p>
+								</div>
+							</a>
 						`;
-						container.insertAdjacentHTML('beforeend', html);
+						track.appendChild(article);
 					});
-
-					currentIndex += nextBatch.length;
-
-					const loadMoreBox = document.getElementById('load-more-box');
-					if (loadMoreBox) {
-						if (currentIndex >= filtered.length) {
-							loadMoreBox.style.display = 'none';
-						} else {
-							loadMoreBox.style.display = 'block';
-						}
-					}
 				}
 
-				// 2. Рендеринг повного текстового списку статей (без обмежень/скролу)
-				function renderFullArchiveList() {
-					const archiveContainer = document.getElementById('archive-list-container');
+				// Рендер модального списку статей (100% чіткі посилання)
+				function renderModalList() {
+					const listContainer = document.getElementById('modal-archive-list');
 					const filtered = getFilteredPosts();
-					if (!archiveContainer) return;
+					if (!listContainer) return;
 
-					archiveContainer.innerHTML = '';
+					listContainer.innerHTML = '';
 
 					filtered.forEach(item => {
 						const li = document.createElement('li');
 						li.innerHTML = `
-							<a href="${item.link}" target="_blank">${item.title}</a>
-							<span class="arrow-icon">&rarr;</span>
+							<a href="${item.link}" target="_blank">
+								<span>${item.title}</span>
+								<span style="opacity: 0.6; margin-left: 1em;">&rarr;</span>
+							</a>
 						`;
-						archiveContainer.appendChild(li);
+						listContainer.appendChild(li);
 					});
+				}
+
+				function openArticlesModal(e) {
+					if (e) e.preventDefault();
+					renderModalList();
+					document.getElementById('articlesModal').classList.add('active');
+				}
+
+				function closeArticlesModal(e) {
+					if (e) e.preventDefault();
+					document.getElementById('articlesModal').classList.remove('active');
 				}
 
 				function switchLanguage(lang) {
 					currentLang = lang;
 					localStorage.setItem('selected_lang', lang);
 					updateUIStaticText();
-					
-					// Скидаємо плитки
-					currentIndex = 0;
-					const container = document.getElementById('substack-tiles');
-					if (container) container.innerHTML = '';
-					
-					renderNextBatch();
-					renderFullArchiveList();
+					renderCarousel();
+					renderModalList();
 				}
-
-				// Автопідгрузка плит при скролі
-				window.addEventListener('scroll', () => {
-					const filtered = getFilteredPosts();
-					if (currentIndex < filtered.length) {
-						if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 400) {
-							renderNextBatch();
-						}
-					}
-				});
 
 				document.addEventListener('DOMContentLoaded', () => {
 					updateUIStaticText();
-					renderNextBatch();
-					renderFullArchiveList();
+					renderCarousel();
+					renderModalList();
 				});
 			</script>
 
