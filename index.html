@@ -180,100 +180,11 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-
+		<!-- Підключаємо зовнішній файл зі статтями -->
+			<script src="posts.js"></script>
 		<!-- Script: Language & Articles Dynamic Renderer -->
 			<script>
 				// Точний масив статей з точними лінками та картинками
-				const allPosts = [
-					// ================= УКРАЇНСЬКІ СТАТТІ =================
-					{
-						title: "Множинне зведення до нуля: Філософія геноциду в умовах пізньокапіталістичної війни",
-						link: "https://olehhello.substack.com/p/755",
-						img: "https://substack-post-media.s3.amazonaws.com/public/images/65574de3-89ef-4974-a4ad-ca3c1b230db7_784x1168.jpeg",
-						desc: "Вступ до аналізу пізньокапіталістичної війни та системних механізмів зведення людського ресурсу до нуля...",
-						lang: "ua"
-					},
-					{
-						title: "Східна деспотія замість республіки: як комічний імпровіз ОП маскується медійним шарлатанством",
-						link: "https://olehhello.substack.com/p/ee8",
-						img: "https://substack-post-media.s3.amazonaws.com/public/images/d8ba320d-80df-443d-8c2a-b5925da3881e_1672x941.png",
-						desc: "Аналіз сучасного публічного дискурсу, медійного шарлатанства та герметично за закритої системи...",
-						lang: "ua"
-					},
-					{
-						title: "Професія: гвинтик. Чому «втрата світу» — це єдиний квиток у сучасну професійну спільноту",
-						link: "https://olehhello.substack.com/p/164",
-						img: "https://substack-post-media.s3.amazonaws.com/public/images/781a1f06-e501-4a98-ba95-1e844a7435ea_784x1168.jpeg",
-						desc: "Аналітичний розбір функціоналу людини в бюрократичних та корпоративних системах...",
-						lang: "ua"
-					},
-					{
-						title: "Шизоаналіз капіталістичного медіапростору: симулякри та відкрито закриті структури",
-						link: "https://olehhello.substack.com/p/756",
-						img: "https://substack-post-media.s3.amazonaws.com/public/images/65574de3-89ef-4974-a4ad-ca3c1b230db7_784x1168.jpeg",
-						desc: "Філософський аналіз інформаційних потоків та конструкції суспільної уваги...",
-						lang: "ua"
-					},
-					{
-						title: "Суверенітет над увагою: як розірвати коло цифровізованого контролю",
-						link: "https://olehhello.substack.com/p/757",
-						img: "https://substack-post-media.s3.amazonaws.com/public/images/d8ba320d-80df-443d-8c2a-b5925da3881e_1672x941.png",
-						desc: "Механізми повернення суб'єктності в епоху гіперінформаційного тиску...",
-						lang: "ua"
-					},
-					{
-						title: "Археологія сучасного мейнстріму: сліпі плями суспільного дискурсу",
-						link: "https://olehhello.substack.com/p/758",
-						img: "https://substack-post-media.s3.amazonaws.com/public/images/781a1f06-e501-4a98-ba95-1e844a7435ea_784x1168.jpeg",
-						desc: "Розбір зон замовчування у сучасному публічному полі...",
-						lang: "ua"
-					},
-
-					// ================= ENGLISH ARTICLES =================
-					{
-						title: "Multiple Reduction to Zero: The Philosophy of Genocide in Late-Capitalist Warfare",
-						link: "https://olehhello.substack.com/p/multiple-reduction-to-zero-the-philosophy",
-						img: "https://substack-post-media.s3.amazonaws.com/public/images/781a1f06-e501-4a98-ba95-1e844a7435ea_784x1168.jpeg",
-						desc: "Introduction to the philosophical examination of late-capitalist warfare dynamics and destruction mechanisms...",
-						lang: "en"
-					},
-					{
-						title: "Eastern Despotism Instead of a Republic: How the Office of the President’s Comedic Impromptu is Masked by Media Charlatanism",
-						link: "https://olehhello.substack.com/p/eastern-despotism-instead-of-a-republic",
-						img: "https://substack-post-media.s3.amazonaws.com/public/images/d8ba320d-80df-443d-8c2a-b5925da3881e_1672x941.png",
-						desc: "The contemporary Ukrainian public sphere increasingly resembles a hermetically sealed system...",
-						lang: "en"
-					},
-					{
-						title: "Profession: Cog. Why the 'Loss of the World' is the Only Ticket to Modern Professional Circles",
-						link: "https://olehhello.substack.com/p/profession-cog",
-						img: "https://substack-post-media.s3.amazonaws.com/public/images/65574de3-89ef-4974-a4ad-ca3c1b230db7_784x1168.jpeg",
-						desc: "An analytical critique of modern bureaucracy and individual agency reduction...",
-						lang: "en"
-					},
-					{
-						title: "Schizoanalysis of Capitalist Media Space: Simulacra and Openly Closed Structures",
-						link: "https://olehhello.substack.com/p/schizoanalysis-capitalist-media",
-						img: "https://substack-post-media.s3.amazonaws.com/public/images/65574de3-89ef-4974-a4ad-ca3c1b230db7_784x1168.jpeg",
-						desc: "Philosophical analysis of media flows and public perception construction...",
-						lang: "en"
-					},
-					{
-						title: "Sovereignty Over Attention: Breaking the Cycle of Digital Control",
-						link: "https://olehhello.substack.com/p/sovereignty-over-attention",
-						img: "https://substack-post-media.s3.amazonaws.com/public/images/d8ba320d-80df-443d-8c2a-b5925da3881e_1672x941.png",
-						desc: "Reclaiming human agency in the age of hyper-informational pressure...",
-						lang: "en"
-					},
-					{
-						title: "Archaeology of the Modern Mainstream: Blindspots of Public Discourse",
-						link: "https://olehhello.substack.com/p/archaeology-modern-mainstream",
-						img: "https://substack-post-media.s3.amazonaws.com/public/images/781a1f06-e501-4a98-ba95-1e844a7435ea_784x1168.jpeg",
-						desc: "Deconstructing silenced areas within contemporary societal narratives...",
-						lang: "en"
-					}
-				];
-
 				let currentLang = localStorage.getItem('selected_lang') || 'ua';
 				let currentIndex = 0;
 				const BATCH_SIZE = 3;
