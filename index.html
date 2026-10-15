@@ -26,30 +26,49 @@
 		overflow: hidden !important;
 	}
 
-	/* Початковий стан картинки: затемнена (затуманена) та трохи розмита */
+	/* Початковий стан картинки: затемнена (затуманена) */
 	.tiles article > .image img {
 		width: 100% !important;
 		height: 100% !important;
 		object-fit: cover !important;
 		object-position: center !important;
-		filter: brightness(0.4) blur(1px) !important; /* Затемнення 60% і легкий блур для чіткого тексту */
+		filter: brightness(0.4) blur(1px) !important;
 		opacity: 0.85 !important;
 		transition: filter 0.4s ease, transform 0.5s ease, opacity 0.4s ease !important;
 	}
 
-	/* Текстовий плашки-градієнт під заголовками */
+	/* Початковий стан тексту та градієнтної підкладки */
 	.tiles article > a {
 		background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%) !important;
+		transition: background 0.4s ease !important;
 	}
 
-	/* Стан при наведенні: зображення повертає 100% фокус, яскравість і плавно наближається */
-	.tiles article:hover > .image img {
-		filter: brightness(1) blur(0px) !important; /* Повний фокус і яскравість */
-		opacity: 1 !important;
-		transform: scale(1.08) !important; /* Плавне наближення */
+	.tiles article > a h2,
+	.tiles article > a .content {
+		transition: opacity 0.4s ease, transform 0.4s ease !important;
+		opacity: 1;
 	}
-</style>
-		
+
+	/* === СТАН ПРИ НАВЕДЕННІ (HOVER) === */
+
+	/* Картинка: повний фокус, яскравість і наближення */
+	.tiles article:hover > .image img {
+		filter: brightness(1) blur(0px) !important;
+		opacity: 1 !important;
+		transform: scale(1.08) !important;
+	}
+
+	/* Текст і градієнт: плавно зникають (стають майже непомітними) */
+	.tiles article:hover > a {
+		background: transparent !important;
+	}
+
+	.tiles article:hover > a h2,
+	.tiles article:hover > a .content {
+		opacity: 0.05 !important; /* Ледве помітний контур (або встановіть 0 для повного зникання) */
+		transform: translateY(5px) !important;
+	}
+</style>		
 	</head>
 	<body class="is-preload">
 
