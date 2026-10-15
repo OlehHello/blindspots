@@ -17,31 +17,33 @@
 			<div id="wrapper">
 
 				<!-- Header -->
-					<!-- Header -->
+<!-- Header -->
 <header id="header">
-	<div class="inner" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5em;">
+	<!-- Топовий промо-рядок прямо над логотипом -->
+	<div style="background: rgba(245, 158, 11, 0.12); border-bottom: 1px solid rgba(245, 158, 11, 0.3); padding: 0.4em 1em; text-align: center; font-size: 0.85em;">
+		<span>
+			🔥 <span data-lang="ua">Офіційний спонсор проєкту — мемкоїн <strong>$WTF (WannaTrumpF)</strong></span>
+			<span data-lang="en" style="display: none;">Official project sponsor — memecoin <strong>$WTF (WannaTrumpF)</strong></span>
+		</span>
+		<span style="margin-left: 0.8em; display: inline-flex; gap: 0.4em; align-items: center; vertical-align: middle;">
+			<a href="https://wannatrumpf.pages.dev" target="_blank" class="button small" style="height: 1.8em; line-height: 1.8em; padding: 0 0.6em; font-size: 0.8em; border-radius: 6px;">
+				<span data-lang="ua">Сайт</span>
+				<span data-lang="en" style="display: none;">Site</span>
+			</a>
+			<button id="buyBtn" class="button primary small" style="height: 1.8em; line-height: 1.8em; padding: 0 0.6em; font-size: 0.8em; border-radius: 6px; background-color: #f59e0b !important; color: #000 !important; font-weight: bold; cursor: pointer; border: none;">
+				<span data-lang="ua">Купити</span>
+				<span data-lang="en" style="display: none;">Buy $WTF</span>
+			</button>
+		</span>
+	</div>
 
+	<div class="inner" style="padding-top: 1em;">
 		<!-- Logo -->
 		<a href="index.html" class="logo">
 			<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Blindspots</span>
 		</a>
 
-		<!-- Featured Promo Bar (В один рядок) -->
-		<div style="display: flex; align-items: center; gap: 0.6em; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.4); padding: 0.3em 0.8em; border-radius: 20px; font-size: 0.8em;">
-			<span style="font-weight: bold; color: #f59e0b;">🔥 $WTF:</span>
-			
-			<a href="https://wannatrumpf.pages.dev" target="_blank" class="button small" style="height: 2em; line-height: 2em; padding: 0 0.8em; font-size: 0.75em; border-radius: 12px;">
-				<span data-lang="ua">Сайт</span>
-				<span data-lang="en" style="display: none;">Website</span>
-			</a>
-
-			<a href="https://raydium.io/swap/?inputMint=sol&outputMint=YOUR_TOKEN_MINT_ADDRESS" target="_blank" class="button primary small" style="height: 2em; line-height: 2em; padding: 0 0.8em; font-size: 0.75em; border-radius: 12px; background-color: #f59e0b !important; color: #000 !important; font-weight: bold;">
-				<span data-lang="ua">Купити</span>
-				<span data-lang="en" style="display: none;">Buy $WTF</span>
-			</a>
-		</div>
-
-		<!-- Nav & Language Switcher -->
+		<!-- Nav -->
 		<nav>
 			<ul>
 				<li style="margin-right: 1em;">
@@ -53,10 +55,8 @@
 				<li><a href="#menu">Menu</a></li>
 			</ul>
 		</nav>
-
 	</div>
 </header>
-
 				<!-- Menu -->
 					<nav id="menu">
 						<h2>Menu</h2>
@@ -242,6 +242,80 @@
 					setLanguage(savedLang);
 				});
 			</script>
+<!-- Modal Raydium Swap Script -->
+<script>
+	window.addEventListener('DOMContentLoaded', () => {
+		const buyBtn = document.getElementById('buyBtn');
 
+		if (buyBtn) {
+			buyBtn.addEventListener('click', (e) => {
+				e.preventDefault();
+				
+				if (document.getElementById('jup-modal-overlay')) return;
+
+				const overlay = document.createElement('div');
+				overlay.id = 'jup-modal-overlay';
+				Object.assign(overlay.style, {
+					position: 'fixed',
+					inset: '0',
+					backgroundColor: 'rgba(0, 0, 0, 0.75)',
+					zIndex: '999999',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					backdropFilter: 'blur(4px)'
+				});
+
+				const modal = document.createElement('div');
+				Object.assign(modal.style, {
+					position: 'relative',
+					width: '100%',
+					maxWidth: '440px',
+					height: '600px',
+					maxHeight: '90vh',
+					borderRadius: '20px',
+					overflow: 'hidden',
+					boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
+				});
+
+				const closeBtn = document.createElement('button');
+				closeBtn.innerText = '✕';
+				Object.assign(closeBtn.style, {
+					position: 'absolute',
+					top: '12px',
+					right: '12px',
+					width: '32px',
+					height: '32px',
+					borderRadius: '50%',
+					border: 'none',
+					background: 'rgba(255, 255, 255, 0.2)',
+					color: '#fff',
+					fontSize: '18px',
+					cursor: 'pointer',
+					zIndex: '10'
+				});
+				closeBtn.onclick = () => overlay.remove();
+
+				const iframe = document.createElement('iframe');
+				iframe.src = 'https://raydium.io/swap/?inputMint=sol&outputMint=5dmy661GrH4hJUWQv78DuEkus3McKnm4DdY8tXmHXray';
+				Object.assign(iframe.style, {
+					width: '100%',
+					height: '100%',
+					border: 'none'
+				});
+
+				modal.appendChild(closeBtn);
+				modal.appendChild(iframe);
+				overlay.appendChild(modal);
+
+				overlay.onclick = (event) => {
+					if (event.target === overlay) overlay.remove();
+				};
+
+				document.body.appendChild(overlay);
+			});
+		}
+	});
+</script>
 	</body>
 </html>
