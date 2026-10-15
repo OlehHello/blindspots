@@ -108,7 +108,7 @@
 							<section class="tiles" id="substack-tiles">
 							</section>
 
-							<!-- Кнопка додаткової підгрузки -->
+							<!-- Кнопка завантаження додаткових статей -->
 							<div id="load-more-box" style="text-align: center; margin-top: 2.5em;">
 								<button id="loadMoreBtn" onclick="renderNextBatch()" class="button" style="border-radius: 8px;">
 									<span data-lang="ua">Завантажити ще</span>
@@ -183,9 +183,9 @@
 
 		<!-- Script: Language & Articles Dynamic Renderer -->
 			<script>
-				// Повна база статей (додавайте сюди нові публікації)
+				// Точний масив статей з точними лінками та картинками
 				const allPosts = [
-					// --- Українська версія ---
+					// ================= УКРАЇНСЬКІ СТАТТІ =================
 					{
 						title: "Множинне зведення до нуля: Філософія геноциду в умовах пізньокапіталістичної війни",
 						link: "https://olehhello.substack.com/p/755",
@@ -195,27 +195,41 @@
 					},
 					{
 						title: "Східна деспотія замість республіки: як комічний імпровіз ОП маскується медійним шарлатанством",
-						link: "https://olehhello.substack.com/p/eastern-despotism-instead-of-a-republic",
+						link: "https://olehhello.substack.com/p/ee8",
 						img: "https://substack-post-media.s3.amazonaws.com/public/images/d8ba320d-80df-443d-8c2a-b5925da3881e_1672x941.png",
 						desc: "Аналіз сучасного публічного дискурсу, медійного шарлатанства та герметично за закритої системи...",
 						lang: "ua"
 					},
 					{
 						title: "Професія: гвинтик. Чому «втрата світу» — це єдиний квиток у сучасну професійну спільноту",
-						link: "https://olehhello.substack.com/p/profession-cog",
-						img: "https://substack-post-media.s3.amazonaws.com/public/images/65574de3-89ef-4974-a4ad-ca3c1b230db7_784x1168.jpeg",
+						link: "https://olehhello.substack.com/p/164",
+						img: "https://substack-post-media.s3.amazonaws.com/public/images/781a1f06-e501-4a98-ba95-1e844a7435ea_784x1168.jpeg",
 						desc: "Аналітичний розбір функціоналу людини в бюрократичних та корпоративних системах...",
 						lang: "ua"
 					},
 					{
-						title: "Відповідальності: Чому масштаб системних криз перевершує людське сприйняття",
-						link: "https://olehhello.substack.com/p/responsibility-scale",
+						title: "Шизоаналіз капіталістичного медіапростору: симулякри та відкрито закриті структури",
+						link: "https://olehhello.substack.com/p/756",
+						img: "https://substack-post-media.s3.amazonaws.com/public/images/65574de3-89ef-4974-a4ad-ca3c1b230db7_784x1168.jpeg",
+						desc: "Філософський аналіз інформаційних потоків та конструкції суспільної уваги...",
+						lang: "ua"
+					},
+					{
+						title: "Суверенітет над увагою: як розірвати коло цифровізованого контролю",
+						link: "https://olehhello.substack.com/p/757",
 						img: "https://substack-post-media.s3.amazonaws.com/public/images/d8ba320d-80df-443d-8c2a-b5925da3881e_1672x941.png",
-						desc: "Роздуми про розмивання індивідуальної відповідальності у складних мережевих структурах...",
+						desc: "Механізми повернення суб'єктності в епоху гіперінформаційного тиску...",
+						lang: "ua"
+					},
+					{
+						title: "Археологія сучасного мейнстріму: сліпі плями суспільного дискурсу",
+						link: "https://olehhello.substack.com/p/758",
+						img: "https://substack-post-media.s3.amazonaws.com/public/images/781a1f06-e501-4a98-ba95-1e844a7435ea_784x1168.jpeg",
+						desc: "Розбір зон замовчування у сучасному публічному полі...",
 						lang: "ua"
 					},
 
-					// --- English Version ---
+					// ================= ENGLISH ARTICLES =================
 					{
 						title: "Multiple Reduction to Zero: The Philosophy of Genocide in Late-Capitalist Warfare",
 						link: "https://olehhello.substack.com/p/multiple-reduction-to-zero-the-philosophy",
@@ -232,16 +246,30 @@
 					},
 					{
 						title: "Profession: Cog. Why the 'Loss of the World' is the Only Ticket to Modern Professional Circles",
-						link: "https://olehhello.substack.com/p/profession-cog-en",
+						link: "https://olehhello.substack.com/p/profession-cog",
 						img: "https://substack-post-media.s3.amazonaws.com/public/images/65574de3-89ef-4974-a4ad-ca3c1b230db7_784x1168.jpeg",
 						desc: "An analytical critique of modern bureaucracy and individual agency reduction...",
 						lang: "en"
 					},
 					{
-						title: "Scale of Responsibility: Systemic Crises vs Human Perception",
-						link: "https://olehhello.substack.com/p/responsibility-scale-en",
+						title: "Schizoanalysis of Capitalist Media Space: Simulacra and Openly Closed Structures",
+						link: "https://olehhello.substack.com/p/schizoanalysis-capitalist-media",
+						img: "https://substack-post-media.s3.amazonaws.com/public/images/65574de3-89ef-4974-a4ad-ca3c1b230db7_784x1168.jpeg",
+						desc: "Philosophical analysis of media flows and public perception construction...",
+						lang: "en"
+					},
+					{
+						title: "Sovereignty Over Attention: Breaking the Cycle of Digital Control",
+						link: "https://olehhello.substack.com/p/sovereignty-over-attention",
 						img: "https://substack-post-media.s3.amazonaws.com/public/images/d8ba320d-80df-443d-8c2a-b5925da3881e_1672x941.png",
-						desc: "Philosophical notes on institutional accountability in late modernity...",
+						desc: "Reclaiming human agency in the age of hyper-informational pressure...",
+						lang: "en"
+					},
+					{
+						title: "Archaeology of the Modern Mainstream: Blindspots of Public Discourse",
+						link: "https://olehhello.substack.com/p/archaeology-modern-mainstream",
+						img: "https://substack-post-media.s3.amazonaws.com/public/images/781a1f06-e501-4a98-ba95-1e844a7435ea_784x1168.jpeg",
+						desc: "Deconstructing silenced areas within contemporary societal narratives...",
 						lang: "en"
 					}
 				];
@@ -321,108 +349,4 @@
 
 				function switchLanguage(lang) {
 					currentLang = lang;
-					localStorage.setItem('selected_lang', lang);
-					updateUIStaticText();
-					
-					// Скидаємо лічильник і перемальовуємо плитки
-					currentIndex = 0;
-					const container = document.getElementById('substack-tiles');
-					if (container) container.innerHTML = '';
-					
-					renderNextBatch();
-				}
-
-				// Автопідгрузка при скролі
-				window.addEventListener('scroll', () => {
-					const filtered = getFilteredPosts();
-					if (currentIndex < filtered.length) {
-						if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
-							renderNextBatch();
-						}
-					}
-				});
-
-				document.addEventListener('DOMContentLoaded', () => {
-					updateUIStaticText();
-					renderNextBatch();
-				});
-			</script>
-
-		<!-- Modal Raydium Swap Script -->
-			<script>
-				window.addEventListener('DOMContentLoaded', () => {
-					const buyBtn = document.getElementById('buyBtn');
-
-					if (buyBtn) {
-						buyBtn.addEventListener('click', (e) => {
-							e.preventDefault();
-							
-							if (document.getElementById('jup-modal-overlay')) return;
-
-							const overlay = document.createElement('div');
-							overlay.id = 'jup-modal-overlay';
-							Object.assign(overlay.style, {
-								position: 'fixed',
-								inset: '0',
-								backgroundColor: 'rgba(0, 0, 0, 0.75)',
-								zIndex: '999999',
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								backdropFilter: 'blur(4px)'
-							});
-
-							const modal = document.createElement('div');
-							Object.assign(modal.style, {
-								position: 'relative',
-								width: '100%',
-								maxWidth: '440px',
-								height: '600px',
-								maxHeight: '90vh',
-								borderRadius: '20px',
-								overflow: 'hidden',
-								boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
-							});
-
-							const closeBtn = document.createElement('button');
-							closeBtn.innerText = '✕';
-							Object.assign(closeBtn.style, {
-								position: 'absolute',
-								top: '12px',
-								right: '12px',
-								width: '32px',
-								height: '32px',
-								borderRadius: '50%',
-								border: 'none',
-								background: 'rgba(255, 255, 255, 0.2)',
-								color: '#fff',
-								fontSize: '18px',
-								cursor: 'pointer',
-								zIndex: '10'
-							});
-							closeBtn.onclick = () => overlay.remove();
-
-							const iframe = document.createElement('iframe');
-							iframe.src = 'https://raydium.io/swap/?inputMint=sol&outputMint=5dmy661GrH4hJUWQv78DuEkus3McKnm4DdY8tXmHXray';
-							Object.assign(iframe.style, {
-								width: '100%',
-								height: '100%',
-								border: 'none'
-							});
-
-							modal.appendChild(closeBtn);
-							modal.appendChild(iframe);
-							overlay.appendChild(modal);
-
-							overlay.onclick = (event) => {
-								if (event.target === overlay) overlay.remove();
-							};
-
-							document.body.appendChild(overlay);
-						});
-					}
-				});
-			</script>
-
-	</body>
-</html>
+					localStorage
