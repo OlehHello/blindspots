@@ -12,76 +12,95 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		
-<style>
-	/* Прибираємо стандартні кольорові оверлеї Phantom */
-	.tiles article > .image:before {
-		display: none !important;
-	}
+		<style>
+			/* Прибираємо кольорові оверлеї Phantom */
+			.tiles article > .image:before {
+				display: none !important;
+			}
+			/* Вирівнюємо всі зображення за єдиною висотою та пропорціями */
+			.tiles article > .image {
+				height: 100% !important;
+				min-height: 320px !important;
+				max-height: 360px !important;
+				overflow: hidden !important;
+			}
+			.tiles article > .image img {
+				width: 100% !important;
+				height: 100% !important;
+				object-fit: cover !important;
+				object-position: center !important;
+				filter: brightness(0.4) blur(1px) !important;
+				opacity: 0.85 !important;
+				transition: filter 0.4s ease, transform 0.5s ease, opacity 0.4s ease !important;
+			}
+			.tiles article > a {
+				background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%) !important;
+				transition: background 0.4s ease !important;
+			}
+			.tiles article > a h2,
+			.tiles article > a .content {
+				transition: opacity 0.4s ease, transform 0.4s ease !important;
+				opacity: 1;
+			}
 
-	/* Налаштування контейнера картинки */
-	.tiles article > .image {
-		height: 100% !important;
-		min-height: 320px !important;
-		max-height: 360px !important;
-		overflow: hidden !important;
-	}
+			/* HOVER-ефект плиток */
+			.tiles article:hover > .image img {
+				filter: brightness(1) blur(0px) !important;
+				opacity: 1 !important;
+				transform: scale(1.08) !important;
+			}
+			.tiles article:hover > a {
+				background: transparent !important;
+			}
+			.tiles article:hover > a h2,
+			.tiles article:hover > a .content {
+				opacity: 0.05 !important;
+				transform: translateY(5px) !important;
+			}
 
-	/* Початковий стан картинки: затемнена (затуманена) */
-	.tiles article > .image img {
-		width: 100% !important;
-		height: 100% !important;
-		object-fit: cover !important;
-		object-position: center !important;
-		filter: brightness(0.4) blur(1px) !important;
-		opacity: 0.85 !important;
-		transition: filter 0.4s ease, transform 0.5s ease, opacity 0.4s ease !important;
-	}
-
-	/* Початковий стан тексту та градієнтної підкладки */
-	.tiles article > a {
-		background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%) !important;
-		transition: background 0.4s ease !important;
-	}
-
-	.tiles article > a h2,
-	.tiles article > a .content {
-		transition: opacity 0.4s ease, transform 0.4s ease !important;
-		opacity: 1;
-	}
-
-	/* === СТАН ПРИ НАВЕДЕННІ (HOVER) === */
-
-	/* Картинка: повний фокус, яскравість і наближення */
-	.tiles article:hover > .image img {
-		filter: brightness(1) blur(0px) !important;
-		opacity: 1 !important;
-		transform: scale(1.08) !important;
-	}
-
-	/* Текст і градієнт: плавно зникають (стають майже непомітними) */
-	.tiles article:hover > a {
-		background: transparent !important;
-	}
-
-	.tiles article:hover > a h2,
-	.tiles article:hover > a .content {
-		opacity: 0.05 !important; /* Ледве помітний контур (або встановіть 0 для повного зникання) */
-		transform: translateY(5px) !important;
-	}
-</style>		
+			/* Стилі для текстового списку статей */
+			.archive-list {
+				list-style: none;
+				padding: 0;
+				margin: 2em 0;
+				border-top: 1px solid rgba(255, 255, 255, 0.15);
+			}
+			.archive-list li {
+				padding: 0.8em 0;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				gap: 1em;
+			}
+			.archive-list li a {
+				border-bottom: none;
+				font-weight: 600;
+				font-size: 1.05em;
+				color: #fff;
+				transition: color 0.2s ease;
+			}
+			.archive-list li a:hover {
+				color: #f59e0b !important;
+			}
+			.archive-list .arrow-icon {
+				opacity: 0.5;
+				font-size: 0.9em;
+			}
+		</style>
 	</head>
 	<body class="is-preload">
 
 		<!-- Top Sponsor Bar (Світла, Sticky) -->
 		<div style="position: sticky; top: 0; z-index: 9999; background: rgba(247, 247, 247, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(245, 158, 11, 0.5); padding: 0.5em 1em; text-align: center; font-size: 0.85em; color: #333; width: 100%;">
 			<span>
-				<span data-lang="ua">⚡ <a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #333; text-decoration: none; border-bottom: 1px dotted rgba(0,0,0,0.4);">Ставайте частиною проєкту <strong>Blindspots</strong> через токен <strong>$WTF</strong></a></span>
-				<span data-lang="en" style="display: none;">⚡ <a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #333; text-decoration: none; border-bottom: 1px dotted rgba(0,0,0,0.4);">Become part of the <strong>Blindspots</strong> project via the <strong>$WTF</strong> token</a></span>
+				<span data-lang="ua" style="display: none;">⚡ <a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #333; text-decoration: none; border-bottom: 1px dotted rgba(0,0,0,0.4);">Ставайте частиною проєкту <strong>Blindspots</strong> через токен <strong>$WTF</strong></a></span>
+				<span data-lang="en">⚡ <a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #333; text-decoration: none; border-bottom: 1px dotted rgba(0,0,0,0.4);">Become part of the <strong>Blindspots</strong> project via the <strong>$WTF</strong> token</a></span>
 			</span>
 			<span style="margin-left: 0.8em; display: inline-flex; gap: 0.4em; align-items: center; vertical-align: middle;">
 				<button id="buyBtn" class="button primary small" style="height: 1.8em; line-height: 1.8em; padding: 0 0.8em; font-size: 0.8em; border-radius: 6px; background-color: #f59e0b !important; color: #000 !important; font-weight: bold; cursor: pointer; border: none;">
-					<span data-lang="ua">Долучитися</span>
-					<span data-lang="en" style="display: none;">Join</span>
+					<span data-lang="ua" style="display: none;">Долучитися</span>
+					<span data-lang="en">Join</span>
 				</button>
 			</span>
 		</div>
@@ -103,8 +122,8 @@
 							<ul>
 								<li style="margin-right: 1em;">
 									<span id="lang-switch" style="background: rgba(255, 255, 255, 0.08); padding: 0.3em 0.6em; border-radius: 20px; font-size: 0.8em; font-weight: bold; cursor: pointer; user-select: none;">
-										<span id="btn-ua" onclick="switchLanguage('ua')" style="color: #f59e0b; padding: 0 0.2em;">UA</span> | 
-										<span id="btn-en" onclick="switchLanguage('en')" style="opacity: 0.5; padding: 0 0.2em;">EN</span>
+										<span id="btn-en" onclick="switchLanguage('en')" style="color: #f59e0b; padding: 0 0.2em;">EN</span> | 
+										<span id="btn-ua" onclick="switchLanguage('ua')" style="opacity: 0.5; padding: 0 0.2em;">UA</span>
 									</span>
 								</li>
 								<li><a href="#menu">Menu</a></li>
@@ -127,23 +146,35 @@
 				<!-- Main -->
 					<div id="main">
 						<div class="inner">
-							<header>
-								<h1>Blindspots</h1>
-								<p data-lang="ua">Це сліпі місця мейнстріму, те що ви завжди хотіли дізнатися, але боялися запитати.</p>
-								<p data-lang="en" style="display: none;">These are the blind spots of the mainstream — what you always wanted to know, but were afraid to ask.</p>
+							<header style="margin-bottom: 2em;">
+								<!-- Прибрано велике слово "Blindspots" -->
+								<p data-lang="ua" style="display: none; font-size: 1.1em;">Це сліпі місця мейнстріму, те що ви завжди хотіли дізнатися, але боялися запитати.</p>
+								<p data-lang="en" style="font-size: 1.1em;">These are the blind spots of the mainstream — what you always wanted to know, but were afraid to ask.</p>
 							</header>
 
 							<!-- Articles Tiles Container -->
 							<section class="tiles" id="substack-tiles">
 							</section>
 
-							<!-- Кнопка завантаження додаткових статей -->
-							<div id="load-more-box" style="text-align: center; margin-top: 2.5em;">
+							<!-- Кнопка додаткової підгрузки плит -->
+							<div id="load-more-box" style="text-align: center; margin-top: 2.5em; margin-bottom: 3em;">
 								<button id="loadMoreBtn" onclick="renderNextBatch()" class="button" style="border-radius: 8px;">
-									<span data-lang="ua">Завантажити ще</span>
-									<span data-lang="en" style="display: none;">Load More</span>
+									<span data-lang="ua" style="display: none;">Завантажити ще</span>
+									<span data-lang="en">Load More</span>
 								</button>
 							</div>
+
+							<!-- Секція повного текстового списку статей (All Articles Index) -->
+							<section id="articles-index" style="margin-top: 4em; padding-top: 2em; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+								<h3>
+									<span data-lang="ua" style="display: none;">📚 Повний список публікацій</span>
+									<span data-lang="en">📚 Complete Articles Index</span>
+								</h3>
+								<ul class="archive-list" id="archive-list-container">
+									<!-- Динамічно заповнюється всіма статтями без обмежень -->
+								</ul>
+							</section>
+
 						</div>
 					</div>
 
@@ -151,8 +182,8 @@
 				<footer id="footer">
 					<div class="inner">
 						<section>
-							<h2 data-lang="ua">Напишіть мені</h2>
-							<h2 data-lang="en" style="display: none;">Get in touch</h2>
+							<h2 data-lang="ua" style="display: none;">Напишіть мені</h2>
+							<h2 data-lang="en">Get in touch</h2>
 							
 							<form method="post" action="https://formspree.io/f/your_form_id">
 								<div class="fields">
@@ -168,8 +199,8 @@
 								</div>
 								<ul class="actions">
 									<li>
-										<input type="submit" value="Надіслати" class="primary" data-lang="ua" />
-										<input type="submit" value="Send" class="primary" data-lang="en" style="display: none;" />
+										<input type="submit" value="Надіслати" class="primary" data-lang="ua" style="display: none;" />
+										<input type="submit" value="Send" class="primary" data-lang="en" />
 									</li>
 								</ul>
 							</form>
@@ -188,8 +219,8 @@
 								<p style="margin: 0; font-size: 0.85em;">
 									🚀 Powered by <strong style="color: #f59e0b;">$WTF (Wanna Trump Fish)</strong><br />
 									<a href="https://wannatrumpf.pages.dev" target="_blank" style="border-bottom: 1px dotted;">
-										<span data-lang="ua">Офіційний сайт токена &rarr;</span>
-										<span data-lang="en" style="display: none;">Official token website &rarr;</span>
+										<span data-lang="ua" style="display: none;">Офіційний сайт токена &rarr;</span>
+										<span data-lang="en">Official token website &rarr;</span>
 									</a>
 								</p>
 							</div>
@@ -209,17 +240,19 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+
 		<!-- Підключаємо зовнішній файл зі статтями -->
 			<script src="posts.js"></script>
-		<!-- Script: Language & Articles Dynamic Renderer -->
+
+		<!-- Script: Language & Dual-View Dynamic Renderer -->
 			<script>
-				// Точний масив статей з точними лінками та картинками
-				let currentLang = localStorage.getItem('selected_lang') || 'ua';
+				// Англійська за замовчуванням ('en')
+				let currentLang = localStorage.getItem('selected_lang') || 'en';
 				let currentIndex = 0;
 				const BATCH_SIZE = 3;
 
 				function getFilteredPosts() {
-					return allPosts.filter(p => p.lang === currentLang);
+					return (typeof allPosts !== 'undefined') ? allPosts.filter(p => p.lang === currentLang) : [];
 				}
 
 				function updateUIStaticText() {
@@ -234,20 +267,21 @@
 					const btnUa = document.getElementById('btn-ua');
 					const btnEn = document.getElementById('btn-en');
 					if (btnUa && btnEn) {
-						if (currentLang === 'ua') {
-							btnUa.style.opacity = '1';
-							btnUa.style.color = '#f59e0b';
-							btnEn.style.opacity = '0.5';
-							btnEn.style.color = 'inherit';
-						} else {
+						if (currentLang === 'en') {
 							btnEn.style.opacity = '1';
 							btnEn.style.color = '#f59e0b';
 							btnUa.style.opacity = '0.5';
 							btnUa.style.color = 'inherit';
+						} else {
+							btnUa.style.opacity = '1';
+							btnUa.style.color = '#f59e0b';
+							btnEn.style.opacity = '0.5';
+							btnEn.style.color = 'inherit';
 						}
 					}
 				}
 
+				// 1. Рендеринг плиток (пагінація)
 				function renderNextBatch() {
 					const container = document.getElementById('substack-tiles');
 					const filtered = getFilteredPosts();
@@ -276,7 +310,6 @@
 
 					currentIndex += nextBatch.length;
 
-					// Ховаємо кнопку "Завантажити ще", якщо всі статті поточної мови відображено
 					const loadMoreBox = document.getElementById('load-more-box');
 					if (loadMoreBox) {
 						if (currentIndex >= filtered.length) {
@@ -287,24 +320,43 @@
 					}
 				}
 
+				// 2. Рендеринг повного текстового списку статей (без обмежень/скролу)
+				function renderFullArchiveList() {
+					const archiveContainer = document.getElementById('archive-list-container');
+					const filtered = getFilteredPosts();
+					if (!archiveContainer) return;
+
+					archiveContainer.innerHTML = '';
+
+					filtered.forEach(item => {
+						const li = document.createElement('li');
+						li.innerHTML = `
+							<a href="${item.link}" target="_blank">${item.title}</a>
+							<span class="arrow-icon">&rarr;</span>
+						`;
+						archiveContainer.appendChild(li);
+					});
+				}
+
 				function switchLanguage(lang) {
 					currentLang = lang;
 					localStorage.setItem('selected_lang', lang);
 					updateUIStaticText();
 					
-					// Скидаємо лічильник і перемальовуємо плитки
+					// Скидаємо плитки
 					currentIndex = 0;
 					const container = document.getElementById('substack-tiles');
 					if (container) container.innerHTML = '';
 					
 					renderNextBatch();
+					renderFullArchiveList();
 				}
 
-				// Автопідгрузка при скролі
+				// Автопідгрузка плит при скролі
 				window.addEventListener('scroll', () => {
 					const filtered = getFilteredPosts();
 					if (currentIndex < filtered.length) {
-						if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
+						if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 400) {
 							renderNextBatch();
 						}
 					}
@@ -313,6 +365,7 @@
 				document.addEventListener('DOMContentLoaded', () => {
 					updateUIStaticText();
 					renderNextBatch();
+					renderFullArchiveList();
 				});
 			</script>
 
