@@ -10,6 +10,24 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<style>
+	/* Прибираємо кольорові оверлеї Phantom з плиток */
+	.tiles article > .image:before {
+		display: none !important;
+	}
+	.tiles article > .image img {
+		filter: none !important;
+		opacity: 1 !important;
+		transition: transform 0.5s ease;
+	}
+	/* Градієнт під текстом для чіткості та збереження ефекту наближення (зуму) */
+	.tiles article > a {
+		background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%) !important;
+	}
+	.tiles article:hover > .image img {
+		transform: scale(1.08) !important;
+	}
+</style>
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload">
@@ -82,11 +100,12 @@
 	<p style="width: 100%; text-align: center; padding: 2em; opacity: 0.7;">Завантаження публікацій...</p>
 </section>
 
-<!-- Автоматичне підтягування статей з Substack -->
+<!-- Автоматичне підтягування всіх статей з Substack -->
 <script>
 	async function loadSubstackPosts() {
+		// Ліміт count=50 дозволяє забрати всі архівні публікації
 		const rssUrl = 'https://olehhello.substack.com/feed';
-		const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+		const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&api_key=&count=50`;
 		const container = document.getElementById('substack-tiles');
 
 		try {
@@ -99,29 +118,33 @@
 			}
 
 			container.innerHTML = '';
-			const styles = ['style1', 'style2', 'style3', 'style4', 'style5', 'style6'];
 
-			data.items.forEach((item, index) => {
-				const styleClass = styles[index % styles.length];
-
+			data.items.forEach((item) => {
 				// Витягуємо зображення обкладинки
-				let imgUrl = item.thumbnail || 'images/pic01.jpg';
-				if (!item.thumbnail && item.enclosure && item.enclosure.link) {
+				let imgUrl = item.thumbnail || '';
+				if (!imgUrl && item.enclosure && item.enclosure.link) {
 					imgUrl = item.enclosure.link;
+				}
+				if (!imgUrl) {
+					// Якщо обкладинка відсутня у фіді, беремо першу картинку з тексту статті
+					const tmp = document.createElement('div');
+					tmp.innerHTML = item.content || item.description || '';
+					const firstImg = tmp.querySelector('img');
+					imgUrl = firstImg ? firstImg.src : 'images/pic01.jpg';
 				}
 
 				// Очищаємо опис від HTML-тегів для анонсу
 				const tmpDiv = document.createElement('div');
 				tmpDiv.innerHTML = item.description || item.content || '';
 				const cleanText = tmpDiv.textContent || tmpDiv.innerText || '';
-				const shortDesc = cleanText.substring(0, 120) + '...';
+				const shortDesc = cleanText.substring(0, 110) + '...';
 
-				// Визначаємо мову за наявністю кирилиці в заголовку
+				// Автовизначення мови (наявність кирилиці)
 				const isUa = /[а-яіїєґ]/i.test(item.title);
 				const langAttr = isUa ? 'ua' : 'en';
 
 				const articleHtml = `
-					<article class="${styleClass}" data-lang="${langAttr}">
+					<article data-lang="${langAttr}">
 						<span class="image">
 							<img src="${imgUrl}" alt="${item.title}" />
 						</span>
@@ -137,7 +160,7 @@
 				container.insertAdjacentHTML('beforeend', articleHtml);
 			});
 
-			// Після створення плит застосовуємо активну мову
+			// Застосовуємо вибір мови
 			const currentLang = localStorage.getItem('selected_lang') || 'ua';
 			if (typeof setLanguage === 'function') {
 				setLanguage(currentLang);
@@ -145,12 +168,12 @@
 
 		} catch (err) {
 			console.error('Помилка завантаження RSS Substack:', err);
-			container.innerHTML = '<p style="width:100%; text-align:center;"><a href="https://olehhello.substack.com" target="_blank" class="button">Читати публікації на Substack &rarr;</a></p>';
+			container.innerHTML = '<p style="width:100%; text-align:center;"><a href="https://olehhello.substack.com" target="_blank" class="button">Читати всі публікації на Substack &rarr;</a></p>';
 		}
 	}
 
 	document.addEventListener('DOMContentLoaded', loadSubstackPosts);
-</script>
+</script>	
 						</div>
 					</div>
 
