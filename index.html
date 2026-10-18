@@ -1,4 +1,9 @@
 <!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
 	<head>
 		<title>Blindspots</title>
@@ -8,79 +13,102 @@
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		
 		<style>
-			/* --- 3D ОБЕРТАННЯ МОНЕТИ В ШАПЦІ (НАВКОЛО ЦЕНТРАЛЬНОЇ ОСІ) --- */
-.coin-container {
-    display: inline-block;
-    width: 28px;
-    height: 28px;
-    perspective: 800px;
-    vertical-align: middle;
-    margin: 0 6px;
-    position: relative;
-}
+			/* --- 3D ОБЕРТАННЯ МОНЕТИ В ШАПЦІ --- */
+			.coin-container {
+				display: inline-block;
+				width: 28px;
+				height: 28px;
+				perspective: 800px;
+				vertical-align: middle;
+				margin: 0 6px;
+				position: relative;
+			}
 
-.coin-flipper {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transform-origin: center center !important; /* Чітке обертання по центру */
-    animation: spinCoin 4s linear infinite;
-}
+			.coin-flipper {
+				width: 100%;
+				height: 100%;
+				position: relative;
+				transform-style: preserve-3d;
+				transform-origin: center center !important;
+				animation: spinCoin 4s linear infinite;
+			}
 
-.coin-face {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden !important;
-    -webkit-backface-visibility: hidden !important;
-    border-radius: 50%;
-    object-fit: cover;
-    transform-origin: center center !important;
-}
+			.coin-face {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				backface-visibility: hidden !important;
+				-webkit-backface-visibility: hidden !important;
+				border-radius: 50%;
+				object-fit: cover;
+				transform-origin: center center !important;
+			}
 
-.coin-front {
-    transform: rotateY(0deg);
-}
+			.coin-front { transform: rotateY(0deg); }
+			.coin-back { transform: rotateY(180deg); }
 
-.coin-back {
-    transform: rotateY(180deg);
-}
+			@keyframes spinCoin {
+				0% { transform: rotateY(0deg); }
+				100% { transform: rotateY(360deg); }
+			}
 
-@keyframes spinCoin {
-    0% {
-        transform: rotateY(0deg);
-    }
-    100% {
-        transform: rotateY(360deg);
-    }
-}
+			/* --- ПЕРЕМИКАЧ РЕЖИМІВ (TABS) --- */
+			.view-mode-tabs {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5em;
+				margin-bottom: 1.5em;
+				justify-content: center;
+			}
 
-			/* --- КАРУСЕЛЬ СТАТЕЙ --- */
+			.view-tab {
+				background: rgba(255, 255, 255, 0.05);
+				border: 1px solid rgba(255, 255, 255, 0.15);
+				color: #ccc;
+				padding: 0.4em 0.9em;
+				border-radius: 20px;
+				font-size: 0.85em;
+				cursor: pointer;
+				user-select: none;
+				transition: all 0.25 ease;
+			}
+
+			.view-tab:hover {
+				background: rgba(255, 255, 255, 0.12);
+				color: #fff;
+			}
+
+			.view-tab.active {
+				background: #f59e0b !important;
+				color: #000 !important;
+				font-weight: bold;
+				border-color: #f59e0b !important;
+			}
+
+			/* --- ДРАГ-КАРУСЕЛЬ (БЕЗ АВТОСКРОЛУ) --- */
 			.carousel-wrapper {
 				width: 100%;
-				overflow: hidden;
+				overflow-x: auto;
+				overflow-y: hidden;
 				position: relative;
 				padding: 1em 0;
 				margin-bottom: 2em;
+				cursor: grab;
+				scrollbar-width: thin;
+				scrollbar-color: rgba(245, 158, 11, 0.5) transparent;
+			}
+
+			.carousel-wrapper:active {
+				cursor: grabbing;
 			}
 
 			.carousel-track {
 				display: flex;
 				gap: 1.5em;
 				width: max-content;
-				animation: scrollCarousel 140s linear infinite;
-			}
-
-			.carousel-wrapper:hover .carousel-track {
-				animation-play-state: paused;
-			}
-
-			@keyframes scrollCarousel {
-				0% { transform: translateX(0); }
-				100% { transform: translateX(-50%); }
+				user-select: none;
 			}
 
 			.carousel-track article {
@@ -152,88 +180,72 @@
 				transform: translateY(5px) !important;
 			}
 
-			/* --- МОДАЛЬНЕ ВІКНО СПИСКУ СТАТЕЙ --- */
-			.articles-modal-overlay {
-				position: fixed;
-				inset: 0;
-				background: rgba(10, 10, 12, 0.85);
-				backdrop-filter: blur(8px);
-				z-index: 99999;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				opacity: 0;
-				pointer-events: none;
-				transition: opacity 0.3s ease;
+			/* --- ДВІ ВЕЛИКІ КОЛОНКИ ДЛЯ "ПОВНОГО СПИСКУ" --- */
+			.full-list-container {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 1.5em;
+				margin-bottom: 2em;
 			}
 
-			.articles-modal-overlay.active {
-				opacity: 1;
-				pointer-events: auto;
+			@media screen and (max-width: 768px) {
+				.full-list-container {
+					grid-template-columns: 1fr;
+				}
 			}
 
-			.articles-modal-content {
-				background: #1e1e24;
-				border: 1px solid rgba(255, 255, 255, 0.15);
+			.full-list-box {
+				background: rgba(255, 255, 255, 0.03);
+				border: 1px solid rgba(255, 255, 255, 0.1);
 				border-radius: 12px;
-				width: 90%;
-				max-width: 700px;
-				max-height: 80vh;
-				padding: 2em;
-				display: flex;
-				flex-direction: column;
-				box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-				position: relative;
+				padding: 1.5em;
+				max-height: 480px;
+				overflow-y: auto;
+				scrollbar-width: thin;
+				scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 			}
 
-			.articles-modal-close {
-				position: absolute;
-				top: 1em;
-				right: 1em;
-				background: rgba(255, 255, 255, 0.1);
-				border: none;
-				color: #fff;
-				width: 36px;
-				height: 36px;
-				border-radius: 50%;
-				cursor: pointer;
-				font-size: 1.2em;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-			}
-
-			.articles-modal-close:hover {
-				background: #f59e0b;
-				color: #000;
-			}
-
-			.modal-archive-list {
+			.full-list-items {
 				list-style: none;
 				padding: 0;
-				margin: 1em 0 0 0;
-				overflow-y: auto;
+				margin: 0;
 			}
 
-			.modal-archive-list li {
-				padding: 0.9em 0;
-				border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+			.full-list-item {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0.8em 0;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+				gap: 1em;
 			}
 
-			.modal-archive-list li a {
-				color: #f3f4f6 !important;
-				font-size: 1.05em;
+			.full-list-item:last-child {
+				border-bottom: none;
+			}
+
+			.full-list-item a.title-link {
+				color: #e5e7eb !important;
+				font-size: 0.95em;
 				font-weight: 600;
+				line-height: 1.3;
 				text-decoration: none !important;
 				border-bottom: none !important;
 				transition: color 0.2s ease;
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
+				flex-grow: 1;
 			}
 
-			.modal-archive-list li a:hover {
+			.full-list-item a.title-link:hover {
 				color: #f59e0b !important;
+			}
+
+			.full-list-item .thumb-icon {
+				width: 46px;
+				height: 46px;
+				border-radius: 6px;
+				object-fit: cover;
+				flex-shrink: 0;
+				border: 1px solid rgba(255, 255, 255, 0.15);
 			}
 		</style>
 	</head>
@@ -309,12 +321,6 @@
 						<h2>Menu</h2>
 						<ul>
 							<li><a href="index.html">Home</a></li>
-							<li>
-								<a href="#" onclick="openArticlesModal(event)">
-									<span data-lang="ua" style="display: none;">Статті</span>
-									<span data-lang="en">Articles</span>
-								</a>
-							</li>
 							<li><a href="https://olehhello.substack.com" target="_blank">Substack</a></li>
 							<li><a href="https://wannatrumpf.pages.dev" target="_blank">$WTF Token</a></li>
 						</ul>
@@ -328,18 +334,44 @@
 								<p data-lang="en" style="font-size: 1.1em;">These are the blind spots of the mainstream — what you always wanted to know, but were afraid to ask.</p>
 							</header>
 
-							<!-- Карусель статей -->
-							<div class="carousel-wrapper">
+							<!-- Перемикач режимів -->
+							<div class="view-mode-tabs">
+								<span class="view-tab active" onclick="switchViewMode('newest', this)">
+									<span data-lang="ua" style="display: none;">Найновіші</span>
+									<span data-lang="en">Newest</span>
+								</span>
+								<span class="view-tab" onclick="switchViewMode('oldest', this)">
+									<span data-lang="ua" style="display: none;">Найстаріші</span>
+									<span data-lang="en">Oldest</span>
+								</span>
+								<span class="view-tab" onclick="switchViewMode('random', this)">
+									<span data-lang="ua" style="display: none;">Випадкові</span>
+									<span data-lang="en">Random</span>
+								</span>
+								<span class="view-tab" onclick="switchViewMode('editor', this)">
+									<span data-lang="ua" style="display: none;">Вибір автора</span>
+									<span data-lang="en">Editor's Choice</span>
+								</span>
+								<span class="view-tab" onclick="switchViewMode('full', this)">
+									<span data-lang="ua" style="display: none;">Повний список</span>
+									<span data-lang="en">Full List</span>
+								</span>
+							</div>
+
+							<!-- Область каруселі (для режимів: найновіші, найстаріші, випадкові, вибір автора) -->
+							<div class="carousel-wrapper" id="carouselWrapper">
 								<div class="carousel-track" id="carousel-track">
 								</div>
 							</div>
 
-							<!-- Кнопка «Усі статті» -->
-							<div style="text-align: center; margin-top: 1em; margin-bottom: 2em;">
-								<button onclick="openArticlesModal(event)" class="button primary" style="border-radius: 8px; background-color: #f59e0b !important; color: #000 !important; font-weight: bold;">
-									<span data-lang="ua" style="display: none;">📚 Усі статті</span>
-									<span data-lang="en">📚 All Articles</span>
-								</button>
+							<!-- Область двох вікон для режиму "Повний список" -->
+							<div class="full-list-container" id="fullListContainer" style="display: none;">
+								<div class="full-list-box">
+									<ul class="full-list-items" id="fullListColumn1"></ul>
+								</div>
+								<div class="full-list-box">
+									<ul class="full-list-items" id="fullListColumn2"></ul>
+								</div>
 							</div>
 
 						</div>
@@ -349,7 +381,6 @@
 				<footer id="footer">
 					<div class="inner">
 						<section>
-							<!-- Оновлений заголовок форми зворотного зв'язку -->
 							<h2 data-lang="ua" style="display: none;">Хочете замовити статтю? Напишіть мені</h2>
 							<h2 data-lang="en">Want me to write an article? Get in touch</h2>
 							
@@ -383,33 +414,20 @@
 								<li><a href="https://www.instagram.com/hello.oleh/" class="icon brands style2 fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
 							</ul>
 
-<!-- Оновлений блок токена у футері -->
-<div style="margin-top: 1.5em; padding: 0.6em 1em; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; background: rgba(255, 255, 255, 0.02); text-align: center;">
-    <p style="margin: 0; font-size: 0.85em; opacity: 0.9;">
-        🚀 Powered by <a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #f59e0b; font-weight: bold; text-decoration: none; border-bottom: 1px dotted #f59e0b;">$WTF</a>
-    </p>
-</div>
-
-<!-- Оновлені копірайти без зайвого тексту -->
-<ul class="copyright" style="margin-top: 1.5em;">
-    <li>&copy; Blindspots. All rights reserved.</li>
-</ul>					</div>
+							<!-- ВІРІВНЯНО ЧІТКО ЗЛІВА -->
+							<div style="margin-top: 1.5em; padding: 0.6em 1em; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; background: rgba(255, 255, 255, 0.02); text-align: left;">
+								<p style="margin: 0; font-size: 0.85em; opacity: 0.9;">
+									🚀 Powered by <a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #f59e0b; font-weight: bold; text-decoration: none; border-bottom: 1px dotted #f59e0b;">$WTF</a>
+								</p>
+							</div>
+						</section>
+						<ul class="copyright">
+							<li>&copy; Blindspots. All rights reserved.</li>
+						</ul>
+					</div>
 				</footer>
 
 			</div>
-
-		<!-- Модальне вікно зі списком статей -->
-		<div class="articles-modal-overlay" id="articlesModal" onclick="closeArticlesModal(event)">
-			<div class="articles-modal-content" onclick="event.stopPropagation()">
-				<button class="articles-modal-close" onclick="closeArticlesModal(event)">✕</button>
-				<h3 style="margin-bottom: 0.5em; color: #fff;">
-					<span data-lang="ua" style="display: none;">📚 Список статей</span>
-					<span data-lang="en">📚 Articles Index</span>
-				</h3>
-				<ul class="modal-archive-list" id="modal-archive-list">
-				</ul>
-			</div>
-		</div>
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
@@ -418,15 +436,24 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 
-		<!-- Підключаємо зовнішній файл зі статтями -->
+		<!-- Підключаємо файли даних -->
 			<script src="posts.js"></script>
+			<script src="favorit.js"></script>
 
-		<!-- Script: Carousel, Randomizer & Modal Logic -->
+		<!-- Script: Multi-Mode Engine & Drag Carousel -->
 			<script>
 				let currentLang = localStorage.getItem('selected_lang') || 'en';
+				let currentMode = 'newest';
 
 				function getFilteredPosts() {
 					return (typeof allPosts !== 'undefined') ? allPosts.filter(p => p.lang === currentLang) : [];
+				}
+
+				function getFavoritePosts() {
+					if (typeof favoritePosts !== 'undefined' && favoritePosts.length > 0) {
+						return favoritePosts.filter(p => p.lang === currentLang);
+					}
+					return getFilteredPosts().slice(0, 3);
 				}
 
 				function shuffleArray(array) {
@@ -464,16 +491,35 @@
 					}
 				}
 
-				function renderCarousel() {
+				function renderContent() {
+					const carouselWrapper = document.getElementById('carouselWrapper');
+					const fullListContainer = document.getElementById('fullListContainer');
 					const track = document.getElementById('carousel-track');
-					const filtered = getFilteredPosts();
-					if (!track || filtered.length === 0) return;
 
+					if (currentMode === 'full') {
+						carouselWrapper.style.display = 'none';
+						fullListContainer.style.display = 'grid';
+						renderFullListTwoColumns();
+						return;
+					}
+
+					carouselWrapper.style.display = 'block';
+					fullListContainer.style.display = 'none';
 					track.innerHTML = '';
-					const shuffled = shuffleArray(filtered);
-					const displayPosts = [...shuffled, ...shuffled];
 
-					displayPosts.forEach(item => {
+					let postsToRender = [];
+
+					if (currentMode === 'newest') {
+						postsToRender = [...getFilteredPosts()];
+					} else if (currentMode === 'oldest') {
+						postsToRender = [...getFilteredPosts()].reverse();
+					} else if (currentMode === 'random') {
+						postsToRender = shuffleArray(getFilteredPosts());
+					} else if (currentMode === 'editor') {
+						postsToRender = getFavoritePosts().slice(0, 3);
+					}
+
+					postsToRender.forEach(item => {
 						const article = document.createElement('article');
 						article.innerHTML = `
 							<span class="image">
@@ -490,52 +536,75 @@
 					});
 				}
 
-				function renderModalList() {
-					const listContainer = document.getElementById('modal-archive-list');
+				function renderFullListTwoColumns() {
+					const col1 = document.getElementById('fullListColumn1');
+					const col2 = document.getElementById('fullListColumn2');
 					const filtered = getFilteredPosts();
-					if (!listContainer) return;
 
-					listContainer.innerHTML = '';
+					if (!col1 || !col2) return;
 
-					filtered.forEach(item => {
-						const li = document.createElement('li');
-						li.innerHTML = `
-							<a href="${item.link}" target="_blank">
-								<span>${item.title}</span>
-								<span style="opacity: 0.6; margin-left: 1em;">&rarr;</span>
-							</a>
-						`;
-						listContainer.appendChild(li);
-					});
+					col1.innerHTML = '';
+					col2.innerHTML = '';
+
+					const half = Math.ceil(filtered.length / 2);
+					const leftItems = filtered.slice(0, half);
+					const rightItems = filtered.slice(half);
+
+					const createListItemHtml = (item) => `
+						<li class="full-list-item">
+							<a href="${item.link}" target="_blank" class="title-link">${item.title}</a>
+							<img src="${item.img}" alt="" class="thumb-icon" />
+						</li>
+					`;
+
+					leftItems.forEach(item => col1.insertAdjacentHTML('beforeend', createListItemHtml(item)));
+					rightItems.forEach(item => col2.insertAdjacentHTML('beforeend', createListItemHtml(item)));
 				}
 
-				function openArticlesModal(e) {
-					if (e) e.preventDefault();
-					renderModalList();
-					document.getElementById('articlesModal').classList.add('active');
-				}
-
-				function closeArticlesModal(e) {
-					if (e) e.preventDefault();
-					document.getElementById('articlesModal').classList.remove('active');
+				function switchViewMode(mode, tabElement) {
+					currentMode = mode;
+					document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+					if (tabElement) tabElement.classList.add('active');
+					renderContent();
 				}
 
 				function switchLanguage(lang) {
 					currentLang = lang;
 					localStorage.setItem('selected_lang', lang);
 					updateUIStaticText();
-					renderCarousel();
-					renderModalList();
+					renderContent();
+				}
+
+				// --- ДРАГ МИШКОЮ/ТАЧЕМ ДЛЯ КАРУСЕЛІ ---
+				const slider = document.getElementById('carouselWrapper');
+				let isDown = false;
+				let startX;
+				let scrollLeft;
+
+				if (slider) {
+					slider.addEventListener('mousedown', (e) => {
+						isDown = true;
+						startX = e.pageX - slider.offsetLeft;
+						scrollLeft = slider.scrollLeft;
+					});
+					slider.addEventListener('mouseleave', () => { isDown = false; });
+					slider.addEventListener('mouseup', () => { isDown = false; });
+					slider.addEventListener('mousemove', (e) => {
+						if (!isDown) return;
+						e.preventDefault();
+						const x = e.pageX - slider.offsetLeft;
+						const walk = (x - startX) * 2; // швидкість зсуву
+						slider.scrollLeft = scrollLeft - walk;
+					});
 				}
 
 				document.addEventListener('DOMContentLoaded', () => {
 					updateUIStaticText();
-					renderCarousel();
-					renderModalList();
+					renderContent();
 				});
 			</script>
 
-		<!-- Modal Raydium Swap Script (Підключаємо до нових кнопок) -->
+		<!-- Modal Raydium Swap Script -->
 			<script>
 				window.addEventListener('DOMContentLoaded', () => {
 					function openSwapModal(e) {
