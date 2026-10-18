@@ -54,13 +54,14 @@
 				100% { transform: rotateY(360deg); }
 			}
 
-			/* --- ПЕРЕМИКАЧ РЕЖИМІВ (TABS) --- */
+			/* --- ПЕРЕМИКАЧ РЕЖИМІВ (TABS + INLINE SEARCH) --- */
 			.view-mode-tabs {
 				display: flex;
 				flex-wrap: wrap;
 				gap: 0.5em;
 				margin-bottom: 1.5em;
 				justify-content: center;
+				align-items: center;
 			}
 
 			.view-tab {
@@ -73,6 +74,8 @@
 				cursor: pointer;
 				user-select: none;
 				transition: all 0.25s ease;
+				display: inline-flex;
+				align-items: center;
 			}
 
 			.view-tab:hover {
@@ -87,7 +90,25 @@
 				border-color: #f59e0b !important;
 			}
 
-			/* --- НЕСКІНЧЕННА ЦИКТІЧНА ДРАГ-КАРУСЕЛЬ --- */
+			/* Інлайн пошук у рядку категорій */
+			.search-tab-input {
+				background: transparent !important;
+				border: none !important;
+				color: #000 !important;
+				font-weight: bold;
+				font-size: 0.9em !important;
+				outline: none !important;
+				width: 120px;
+				padding: 0 !important;
+				margin-left: 0.3em;
+				height: auto !important;
+			}
+
+			.search-tab-input::placeholder {
+				color: rgba(0, 0, 0, 0.6) !important;
+			}
+
+			/* --- ІНЕРЦІЙНА КАРУСЕЛЬ --- */
 			.carousel-wrapper {
 				width: 100%;
 				overflow-x: auto;
@@ -96,8 +117,11 @@
 				padding: 1em 0;
 				margin-bottom: 2em;
 				cursor: grab;
-				scrollbar-width: thin;
-				scrollbar-color: rgba(245, 158, 11, 0.5) transparent;
+				scrollbar-width: none; /* Прибираємо стандартний скролбар для чистоти */
+			}
+
+			.carousel-wrapper::-webkit-scrollbar {
+				display: none;
 			}
 
 			.carousel-wrapper:active {
@@ -180,7 +204,7 @@
 				transform: translateY(5px) !important;
 			}
 
-			/* --- ДВІ ВЕЛИКІ КОЛОНКИ ДЛЯ "ПОВНОГО СПИСКУ" ТА ПОШУКУ --- */
+			/* --- ДВІ КОЛОНКИ ДЛЯ "ПОВНОГО СПИСКУ" --- */
 			.full-list-container {
 				display: grid;
 				grid-template-columns: 1fr 1fr;
@@ -224,7 +248,6 @@
 				border-bottom: none;
 			}
 
-			/* Контрастний та яскравий текст для читання */
 			.full-list-item a.title-link {
 				color: #ffffff !important;
 				font-size: 1.05em;
@@ -248,28 +271,6 @@
 				object-fit: cover;
 				flex-shrink: 0;
 				border: 1px solid rgba(255, 255, 255, 0.25);
-			}
-
-			/* --- ПОЛЕ ПОШУКУ --- */
-			.search-box-wrapper {
-				max-width: 500px;
-				margin: 0 auto 1.5em auto;
-				position: relative;
-			}
-
-			.search-input {
-				width: 100%;
-				background: rgba(255, 255, 255, 0.08) !important;
-				border: 1px solid rgba(245, 158, 11, 0.5) !important;
-				border-radius: 25px !important;
-				padding: 0.6em 1.2em !important;
-				color: #fff !important;
-				font-size: 0.95em !important;
-				outline: none !important;
-			}
-
-			.search-input::placeholder {
-				color: rgba(255, 255, 255, 0.5) !important;
 			}
 		</style>
 	</head>
@@ -358,38 +359,38 @@
 								<p data-lang="en" style="font-size: 1.1em;">These are the blind spots of the mainstream — what you always wanted to know, but were afraid to ask.</p>
 							</header>
 
-							<!-- Перемикач режимів -->
+							<!-- Перемикач режимів з інлайн-пошуком -->
 							<div class="view-mode-tabs">
-								<span class="view-tab active" onclick="switchViewMode('slides', this)">
+								<span class="view-tab active" id="tab-slides" onclick="switchViewMode('slides', this)">
 									<span data-lang="ua" style="display: none;">🎞️ Слайди</span>
 									<span data-lang="en">🎞️ Slides</span>
 								</span>
-								<span class="view-tab" onclick="switchViewMode('editor', this)">
+								<span class="view-tab" id="tab-editor" onclick="switchViewMode('editor', this)">
 									<span data-lang="ua" style="display: none;">⭐ Вибір автора</span>
 									<span data-lang="en">⭐ Editor's Choice</span>
 								</span>
-								<span class="view-tab" onclick="switchViewMode('full', this)">
+								<span class="view-tab" id="tab-full" onclick="switchViewMode('full', this)">
 									<span data-lang="ua" style="display: none;">📚 Повний список</span>
 									<span data-lang="en">📚 Full List</span>
 								</span>
-								<span class="view-tab" onclick="switchViewMode('search', this)">
-									<span data-lang="ua" style="display: none;">🔍 Пошук</span>
-									<span data-lang="en">🔍 Search</span>
+								
+								<!-- Вкладка Пошук із вбудованим інпутом -->
+								<span class="view-tab" id="tab-search" onclick="activateSearchTab(this)">
+									🔍 <input type="text" id="inlineSearchInput" class="search-tab-input" onkeyup="handleInlineSearch(event)" placeholder="Search..." style="display: none;" />
+									<span id="searchLabel">
+										<span data-lang="ua" style="display: none;">Пошук</span>
+										<span data-lang="en">Search</span>
+									</span>
 								</span>
 							</div>
 
-							<!-- Поле пошуку (для режиму "Пошук") -->
-							<div class="search-box-wrapper" id="searchBoxWrapper" style="display: none;">
-								<input type="text" id="searchInput" class="search-input" onkeyup="handleSearch()" placeholder="Search articles / Введіть слово для пошуку..." />
-							</div>
-
-							<!-- Область драг-каруселі -->
+							<!-- Область каруселі -->
 							<div class="carousel-wrapper" id="carouselWrapper">
 								<div class="carousel-track" id="carousel-track">
 								</div>
 							</div>
 
-							<!-- Область двох вікон для режимів "Повний список" та "Пошук" -->
+							<!-- Область двох вікон для "Повного списку" та пошуку -->
 							<div class="full-list-container" id="fullListContainer" style="display: none;">
 								<div class="full-list-box">
 									<ul class="full-list-items" id="fullListColumn1"></ul>
@@ -439,7 +440,6 @@
 								<li><a href="https://www.instagram.com/hello.oleh/" class="icon brands style2 fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
 							</ul>
 
-							<!-- ВІРІВНЯНО ЧІТКО ЗЛІВА -->
 							<div style="margin-top: 1.5em; padding: 0.6em 1em; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; background: rgba(255, 255, 255, 0.02); text-align: left;">
 								<p style="margin: 0; font-size: 0.85em; opacity: 0.9;">
 									🚀 Powered by <a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #f59e0b; font-weight: bold; text-decoration: none; border-bottom: 1px dotted #f59e0b;">$WTF</a>
@@ -465,7 +465,7 @@
 			<script src="posts.js"></script>
 			<script src="favorit.js"></script>
 
-		<!-- Script: Engine & Infinite Drag Slider -->
+		<!-- Script: Inertial Continuous Circle Carousel & Inline Search Engine -->
 			<script>
 				let currentLang = localStorage.getItem('selected_lang') || 'en';
 				let currentMode = 'slides';
@@ -510,16 +510,12 @@
 				function renderContent() {
 					const carouselWrapper = document.getElementById('carouselWrapper');
 					const fullListContainer = document.getElementById('fullListContainer');
-					const searchBoxWrapper = document.getElementById('searchBoxWrapper');
 					const track = document.getElementById('carousel-track');
-
-					searchBoxWrapper.style.display = (currentMode === 'search') ? 'block' : 'none';
 
 					if (currentMode === 'full' || currentMode === 'search') {
 						carouselWrapper.style.display = 'none';
 						fullListContainer.style.display = 'grid';
 						if (currentMode === 'full') renderTwoColumnsList(getFilteredPosts());
-						if (currentMode === 'search') handleSearch();
 						return;
 					}
 
@@ -531,8 +527,8 @@
 
 					if (currentMode === 'slides') {
 						const original = getFilteredPosts();
-						// Дублюємо 3 рази для створення нескінченної циклічної рухомості
-						postsToRender = [...original, ...original, ...original];
+						// 5 повторів для абсолютно безшовного нескінченного кола
+						postsToRender = [...original, ...original, ...original, ...original, ...original];
 					} else if (currentMode === 'editor') {
 						postsToRender = getFavoritePosts().slice(0, 3);
 					}
@@ -553,10 +549,11 @@
 						track.appendChild(article);
 					});
 
-					// Відцентровуємо скрол посередині трьох зациклених блоків
 					if (currentMode === 'slides') {
 						setTimeout(() => {
-							carouselWrapper.scrollLeft = carouselWrapper.scrollWidth / 3;
+							// Початкова позиція строго посередині великого зацикленого масиву
+							const singleSetWidth = track.scrollWidth / 5;
+							carouselWrapper.scrollLeft = singleSetWidth * 2;
 						}, 50);
 					}
 				}
@@ -590,8 +587,25 @@
 					rightItems.forEach(item => col2.insertAdjacentHTML('beforeend', createListItemHtml(item)));
 				}
 
-				function handleSearch() {
-					const query = document.getElementById('searchInput').value.toLowerCase().trim();
+				/* --- ЛОГІКА ІНЛАЙН-ПОШУКУ --- */
+				function activateSearchTab(tabElement) {
+					currentMode = 'search';
+					document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+					tabElement.classList.add('active');
+
+					const input = document.getElementById('inlineSearchInput');
+					const label = document.getElementById('searchLabel');
+					
+					input.style.display = 'inline-block';
+					label.style.display = 'none';
+					input.focus();
+
+					renderContent();
+					handleInlineSearch();
+				}
+
+				function handleInlineSearch() {
+					const query = document.getElementById('inlineSearchInput').value.toLowerCase().trim();
 					const filtered = getFilteredPosts().filter(item => {
 						return item.title.toLowerCase().includes(query) || (item.desc && item.desc.toLowerCase().includes(query));
 					});
@@ -600,6 +614,15 @@
 
 				function switchViewMode(mode, tabElement) {
 					currentMode = mode;
+					
+					// Скидаємо інпут пошуку
+					const input = document.getElementById('inlineSearchInput');
+					const label = document.getElementById('searchLabel');
+					if (input && label) {
+						input.style.display = 'none';
+						label.style.display = 'inline';
+					}
+
 					document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
 					if (tabElement) tabElement.classList.add('active');
 					renderContent();
@@ -612,37 +635,107 @@
 					renderContent();
 				}
 
-				// --- НЕСКІНЧЕННИЙ ДРАГ ТА ЦИКЛІЧНІСТЬ СЛАЙДІВ ---
+				/* --- ФІЗИКА КАРУСЕЛІ: ДРАГ, ІНЕРЦІЯ ТА НЕСКІНЧЕННЕ КОЛО --- */
 				const slider = document.getElementById('carouselWrapper');
-				let isDown = false;
-				let startX;
-				let scrollLeft;
+				let isDragging = false;
+				let startX = 0;
+				let scrollLeftStart = 0;
+				let velocity = 0;
+				let lastX = 0;
+				let lastTime = 0;
+				let animationFrameId = null;
+
+				function stopInertia() {
+					if (animationFrameId) {
+						cancelAnimationFrame(animationFrameId);
+						animationFrameId = null;
+					}
+				}
+
+				function updateInertia() {
+					if (Math.abs(velocity) > 0.2) {
+						slider.scrollLeft -= velocity;
+						velocity *= 0.95; // Коефіцієнт сповільнення інерції
+
+						checkLoopBounds();
+						animationFrameId = requestAnimationFrame(updateInertia);
+					} else {
+						stopInertia();
+					}
+				}
+
+				function checkLoopBounds() {
+					if (currentMode !== 'slides') return;
+					const track = document.getElementById('carousel-track');
+					if (!track) return;
+
+					const singleSetWidth = track.scrollWidth / 5;
+
+					// Телепортація при досягненні крайніх поверхонь для нескінченного кола
+					if (slider.scrollLeft <= singleSetWidth) {
+						slider.scrollLeft += singleSetWidth * 2;
+					} else if (slider.scrollLeft >= singleSetWidth * 3) {
+						slider.scrollLeft -= singleSetWidth * 2;
+					}
+				}
 
 				if (slider) {
+					// Натискання миші / тачу -> Зупинка будь-якого руху
 					slider.addEventListener('mousedown', (e) => {
-						isDown = true;
+						stopInertia();
+						isDragging = true;
 						startX = e.pageX - slider.offsetLeft;
-						scrollLeft = slider.scrollLeft;
+						scrollLeftStart = slider.scrollLeft;
+						lastX = e.pageX;
+						lastTime = performance.now();
+						velocity = 0;
 					});
-					slider.addEventListener('mouseleave', () => { isDown = false; });
-					slider.addEventListener('mouseup', () => { isDown = false; });
-					slider.addEventListener('mousemove', (e) => {
-						if (!isDown) return;
-						e.preventDefault();
-						const x = e.pageX - slider.offsetLeft;
-						const walk = (x - startX) * 2;
-						slider.scrollLeft = scrollLeft - walk;
 
-						// Циклічність: якщо дійшли до одного з країв, безшовно перестрибуємо в центр
-						if (currentMode === 'slides') {
-							const oneThird = slider.scrollWidth / 3;
-							if (slider.scrollLeft <= 50) {
-								slider.scrollLeft += oneThird;
-							} else if (slider.scrollLeft >= oneThird * 2) {
-								slider.scrollLeft -= oneThird;
-							}
+					slider.addEventListener('mouseleave', () => {
+						if (isDragging) {
+							isDragging = false;
+							updateInertia();
 						}
 					});
+
+					slider.addEventListener('mouseup', () => {
+						if (isDragging) {
+							isDragging = false;
+							updateInertia();
+						}
+					});
+
+					slider.addEventListener('mousemove', (e) => {
+						if (!isDragging) return;
+						e.preventDefault();
+
+						const now = performance.now();
+						const x = e.pageX - slider.offsetLeft;
+						const walk = (x - startX) * 1.5;
+						
+						slider.scrollLeft = scrollLeftStart - walk;
+
+						// Обчислення швидкості імпульсу ("кидка")
+						const dt = now - lastTime;
+						if (dt > 0) {
+							velocity = (e.pageX - lastX) / dt * 15;
+						}
+
+						lastX = e.pageX;
+						lastTime = now;
+
+						checkLoopBounds();
+					});
+
+					// Підтримка стандартного колесика миші
+					slider.addEventListener('wheel', (e) => {
+						stopInertia();
+						if (e.deltaY !== 0) {
+							e.preventDefault();
+							slider.scrollLeft += e.deltaY;
+							checkLoopBounds();
+						}
+					}, { passive: false });
 				}
 
 				document.addEventListener('DOMContentLoaded', () => {
