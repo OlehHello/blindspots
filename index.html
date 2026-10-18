@@ -13,19 +13,28 @@
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		
 		<style>
-			/* --- ВУЗЬКИЙ ВЕРХНІЙ ПРОМО-БАР --- */
+			/* Прибираємо будь-які тіні шапки та меню */
+			#header {
+				box-shadow: none !important;
+				border-bottom: none !important;
+				position: relative;
+				z-index: 1;
+			}
+
+			/* --- ВУЗЬКИЙ ВЕРХНІЙ ПРОМО-БАР ЧІТКО НАД УСІМ --- */
 			.top-promo-bar {
 				position: sticky;
 				top: 0;
-				z-index: 10000;
+				z-index: 10000 !important;
 				background: rgba(20, 20, 25, 0.98);
 				backdrop-filter: blur(8px);
 				border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-				padding: 0.25em 1em; /* Звужено бар */
+				padding: 0.25em 1em;
 				text-align: center;
 				font-size: 0.82em;
 				color: #e5e7eb;
 				width: 100%;
+				box-shadow: none !important;
 			}
 
 			/* --- 3D ОБЕРТАННЯ МОНЕТИ В ШАПЦІ --- */
@@ -367,7 +376,7 @@
 	</head>
 	<body class="is-preload">
 
-		<!-- Вузький зафіксований промо-бар -->
+		<!-- Вузький зафіксований промо-бар без тіні -->
 		<div class="top-promo-bar">
 			<span style="display: inline-flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 0.2em;">
 				
@@ -400,14 +409,14 @@
 			</span>
 		</div>
 
-		<!-- Wrapper із додатковим відступом зверху -->
+		<!-- Wrapper -->
 			<div id="wrapper" style="padding-top: 1.2em;">
 
 				<!-- Header -->
 				<header id="header">
 					<div class="inner">
 
-						<!-- Logo & Title (При натисканні відкриває/закриває About) -->
+						<!-- Logo & Title -->
 						<a href="javascript:void(0)" class="logo logo-trigger" onclick="toggleAboutText()" title="Click to read about Blindspots">
 							<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Blindspots</span>
 						</a>
@@ -442,10 +451,11 @@
 					<div id="main">
 						<div class="inner">
 							<header style="margin-bottom: 1.8em;">
-								<p data-lang="ua" style="display: none; font-size: 1.1em; margin-bottom: 0;">Це сліпі місця мейнстріму, те що ви завжди хотіли дізнатися, але боялися запитати.</p>
+								<!-- Оновлена фраза українською мовою -->
+								<p data-lang="ua" style="display: none; font-size: 1.1em; margin-bottom: 0;">Це сліпі плями мейнстріму, те що ви завжди хотіли дізнатися, але боялися запитати.</p>
 								<p data-lang="en" style="font-size: 1.1em; margin-bottom: 0;">These are the blind spots of the mainstream — what you always wanted to know, but were afraid to ask.</p>
 
-								<!-- Розгорнутий опис проєкту (при натисканні на лого) -->
+								<!-- Розгорнутий опис проєкту -->
 								<div class="about-expanded-text" id="aboutExpandedText">
 									<p data-lang="ua" style="display: none; margin: 0;">
 										<strong>Blindspots (Сліпі плями)</strong> — це незалежний аналітично-філософський портал та публіцистичний майданчик. Проєкт присвячений деконструкції медійних симулякрів, критиці пізньокапіталістичного дискурсу, аналізу цифрового контролю та зон свідомого замовчування у сучасному публічному полі. Наша мета — повернення суб'єктності та висвітлення контекстів, які залишаються поза фокусом мейнстріму.
@@ -540,9 +550,9 @@
 								<li><a href="https://www.instagram.com/hello.oleh/" class="icon brands style2 fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
 							</ul>
 
-							<!-- Чітко видимий Powered by $WTF у футері -->
-							<div style="margin-top: 1.5em; padding: 0.6em 1em; border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 8px; background: rgba(0, 0, 0, 0.03); text-align: left;">
-								<p style="margin: 0; font-size: 0.85em; color: #4b5563;">
+							<!-- Очищений від рамки чистий рядок Powered by $WTF -->
+							<div style="margin-top: 1.5em; text-align: left;">
+								<p style="margin: 0; font-size: 0.88em; color: #4b5563;">
 									🚀 Powered by <a href="https://wannatrumpf.pages.dev" target="_blank" class="footer-wtf-link">$WTF</a>
 								</p>
 							</div>
