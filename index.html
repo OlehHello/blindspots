@@ -13,14 +13,29 @@
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		
 		<style>
+			/* --- ВУЗЬКИЙ ВЕРХНІЙ ПРОМО-БАР --- */
+			.top-promo-bar {
+				position: sticky;
+				top: 0;
+				z-index: 10000;
+				background: rgba(20, 20, 25, 0.98);
+				backdrop-filter: blur(8px);
+				border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+				padding: 0.25em 1em; /* Звужено бар */
+				text-align: center;
+				font-size: 0.82em;
+				color: #e5e7eb;
+				width: 100%;
+			}
+
 			/* --- 3D ОБЕРТАННЯ МОНЕТИ В ШАПЦІ --- */
 			.coin-container {
 				display: inline-block;
-				width: 26px;
-				height: 26px;
+				width: 22px;
+				height: 22px;
 				perspective: 800px;
 				vertical-align: middle;
-				margin: 0 6px;
+				margin: 0 4px;
 				position: relative;
 			}
 
@@ -56,17 +71,17 @@
 
 			/* --- Металева кнопка Долучитися / Join --- */
 			.metallic-btn {
-				height: 1.9em;
-				line-height: 1.9em;
-				padding: 0 0.9em;
-				font-size: 0.85em;
-				border-radius: 6px;
+				height: 1.7em;
+				line-height: 1.7em;
+				padding: 0 0.8em;
+				font-size: 0.82em;
+				border-radius: 5px;
 				background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 50%, #4b5563 100%) !important;
 				color: #111827 !important;
 				font-weight: bold;
 				cursor: pointer;
 				border: 1px solid rgba(255, 255, 255, 0.4) !important;
-				box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+				box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 				margin-right: 0.3em;
 				display: inline-block;
 				transition: all 0.2s ease;
@@ -77,21 +92,15 @@
 				color: #000 !important;
 			}
 
-			/* --- РОЗГОРНУТИЙ ABOUT / ВСТУП --- */
-			.about-toggle-btn {
-				background: transparent;
-				border: none;
-				color: #9ca3af;
-				font-size: 0.85em;
+			/* --- ІНТЕРАКТИВНИЙ ЛОГОТИП ДЛЯ ВСТУПУ --- */
+			.logo-trigger {
 				cursor: pointer;
-				padding: 0;
-				margin-top: 0.4em;
-				text-decoration: underline;
-				transition: color 0.2s ease;
+				user-select: none;
+				transition: opacity 0.2s ease;
 			}
 
-			.about-toggle-btn:hover {
-				color: #e5e7eb;
+			.logo-trigger:hover {
+				opacity: 0.8;
 			}
 
 			.about-expanded-text {
@@ -100,10 +109,10 @@
 				transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
 				font-size: 0.95em;
 				line-height: 1.6;
-				color: #d1d5db;
+				color: #4b5563;
 				margin-top: 0.8em;
 				padding-left: 1em;
-				border-left: 2px solid #4b5563;
+				border-left: 2px solid #6b7280;
 			}
 
 			.about-expanded-text.open {
@@ -111,7 +120,7 @@
 				transition: max-height 0.5s ease-in-out;
 			}
 
-			/* --- МОНОХРОМНІ КАТЕГОРІЇ (40 ВІДТІНКІВ СІРОГО) --- */
+			/* --- КАТЕГОРІЇ (40 ВІДТІНКІВ СІРОГО) --- */
 			.view-mode-tabs {
 				display: flex;
 				flex-wrap: wrap;
@@ -122,9 +131,9 @@
 			}
 
 			.view-tab {
-				background: rgba(255, 255, 255, 0.05);
-				border: 1px solid rgba(255, 255, 255, 0.15);
-				color: #9ca3af;
+				background: rgba(0, 0, 0, 0.05);
+				border: 1px solid rgba(0, 0, 0, 0.15);
+				color: #4b5563;
 				padding: 0.45em 1.1em;
 				border-radius: 20px;
 				font-size: 0.85em;
@@ -142,16 +151,16 @@
 			}
 
 			.view-tab:hover {
-				background: rgba(255, 255, 255, 0.12);
-				color: #f3f4f6;
+				background: rgba(0, 0, 0, 0.1);
+				color: #111827;
 			}
 
 			.view-tab.active {
 				background: linear-gradient(135deg, #4b5563 0%, #374151 50%, #1f2937 100%) !important;
 				color: #ffffff !important;
 				font-weight: 600;
-				border-color: #6b7280 !important;
-				box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+				border-color: #374151 !important;
+				box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 			}
 
 			.view-tab.active i.icon-fa {
@@ -173,10 +182,10 @@
 			}
 
 			.search-tab-input::placeholder {
-				color: rgba(255, 255, 255, 0.5) !important;
+				color: rgba(255, 255, 255, 0.6) !important;
 			}
 
-			/* --- КАРУСЕЛЬ СТАТЕЙ ТА ОБМЕЖЕННЯ ОПИСУ ДО 10 СЛІВ --- */
+			/* --- КАРУСЕЛЬ СТАТЕЙ --- */
 			.carousel-wrapper {
 				width: 100%;
 				overflow-x: auto;
@@ -249,9 +258,8 @@
 				transition: opacity 0.4s ease, transform 0.4s ease !important;
 			}
 
-			/* Опис до 10 слів для ідеальної читабельності */
 			.carousel-track article .content p {
-				color: #9ca3af !important;
+				color: #d1d5db !important;
 				font-size: 0.82em !important;
 				line-height: 1.35 !important;
 				margin: 0 !important;
@@ -330,7 +338,7 @@
 			}
 
 			.full-list-item a.title-link:hover {
-				color: #d1d5db !important;
+				color: #9ca3af !important;
 			}
 
 			.full-list-item .thumb-icon {
@@ -341,15 +349,28 @@
 				flex-shrink: 0;
 				border: 1px solid rgba(255, 255, 255, 0.2);
 			}
+
+			/* --- ЧІТКЕ ПОСИЛАННЯ $WTF У ФУТЕРІ --- */
+			.footer-wtf-link {
+				color: #374151 !important;
+				font-weight: bold;
+				text-decoration: none;
+				border-bottom: 1px dotted #4b5563;
+				transition: color 0.2s ease;
+			}
+
+			.footer-wtf-link:hover {
+				color: #111827 !important;
+				border-bottom-style: solid;
+			}
 		</style>
 	</head>
 	<body class="is-preload">
 
-		<!-- Top Sponsor Bar з металевими кнопками та 3D-монеткою -->
-		<div style="position: sticky; top: 0; z-index: 9999; background: rgba(20, 20, 25, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255, 255, 255, 0.15); padding: 0.5em 1em; text-align: center; font-size: 0.85em; color: #e5e7eb; width: 100%;">
+		<!-- Вузький зафіксований промо-бар -->
+		<div class="top-promo-bar">
 			<span style="display: inline-flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 0.2em;">
 				
-				<!-- Ліва монета -->
 				<div class="coin-container">
 					<div class="coin-flipper">
 						<img src="images/WTF1.webp" class="coin-face coin-front" alt="WTF" />
@@ -357,21 +378,18 @@
 					</div>
 				</div>
 
-				<!-- Український текст -->
 				<span data-lang="ua" style="display: none;">
 					<button id="buyBtnUA" class="metallic-btn">Долучайся</button>
 					до фанклубу проєкту <strong>Blindspots</strong> через токен 
 					<a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #e5e7eb; text-decoration: none; border-bottom: 1px dotted #9ca3af; font-weight: bold;">$WTF</a>
 				</span>
 
-				<!-- Англійський текст -->
 				<span data-lang="en">
 					<button id="buyBtnEN" class="metallic-btn">Join</button>
 					the <strong>Blindspots</strong> fan club via 
 					<a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #e5e7eb; text-decoration: none; border-bottom: 1px dotted #9ca3af; font-weight: bold;">$WTF</a> token
 				</span>
 
-				<!-- Права монета -->
 				<div class="coin-container">
 					<div class="coin-flipper">
 						<img src="images/WTF1.webp" class="coin-face coin-front" alt="WTF" />
@@ -382,15 +400,15 @@
 			</span>
 		</div>
 
-		<!-- Wrapper -->
-			<div id="wrapper" style="padding-top: 1.5em;">
+		<!-- Wrapper із додатковим відступом зверху -->
+			<div id="wrapper" style="padding-top: 1.2em;">
 
 				<!-- Header -->
 				<header id="header">
 					<div class="inner">
 
-						<!-- Logo -->
-						<a href="index.html" class="logo">
+						<!-- Logo & Title (При натисканні відкриває/закриває About) -->
+						<a href="javascript:void(0)" class="logo logo-trigger" onclick="toggleAboutText()" title="Click to read about Blindspots">
 							<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Blindspots</span>
 						</a>
 
@@ -398,8 +416,8 @@
 						<nav>
 							<ul>
 								<li style="margin-right: 1em;">
-									<span id="lang-switch" style="background: rgba(255, 255, 255, 0.08); padding: 0.3em 0.6em; border-radius: 20px; font-size: 0.8em; font-weight: bold; cursor: pointer; user-select: none;">
-										<span id="btn-en" onclick="switchLanguage('en')" style="color: #e5e7eb; padding: 0 0.2em;">EN</span> | 
+									<span id="lang-switch" style="background: rgba(0, 0, 0, 0.06); border: 1px solid rgba(0,0,0,0.1); padding: 0.3em 0.6em; border-radius: 20px; font-size: 0.8em; font-weight: bold; cursor: pointer; user-select: none;">
+										<span id="btn-en" onclick="switchLanguage('en')" style="color: #111827; padding: 0 0.2em;">EN</span> | 
 										<span id="btn-ua" onclick="switchLanguage('ua')" style="opacity: 0.5; padding: 0 0.2em;">UA</span>
 									</span>
 								</li>
@@ -426,14 +444,8 @@
 							<header style="margin-bottom: 1.8em;">
 								<p data-lang="ua" style="display: none; font-size: 1.1em; margin-bottom: 0;">Це сліпі місця мейнстріму, те що ви завжди хотіли дізнатися, але боялися запитати.</p>
 								<p data-lang="en" style="font-size: 1.1em; margin-bottom: 0;">These are the blind spots of the mainstream — what you always wanted to know, but were afraid to ask.</p>
-								
-								<!-- Кнопка розгортання Єбаут / Вступ -->
-								<button class="about-toggle-btn" onclick="toggleAboutText()">
-									<span data-lang="ua" style="display: none;">[ Про проєкт / About ]</span>
-									<span data-lang="en">[ About Blindspots ]</span>
-								</button>
 
-								<!-- Розгорнутий опис проєкту -->
+								<!-- Розгорнутий опис проєкту (при натисканні на лого) -->
 								<div class="about-expanded-text" id="aboutExpandedText">
 									<p data-lang="ua" style="display: none; margin: 0;">
 										<strong>Blindspots (Сліпі плями)</strong> — це незалежний аналітично-філософський портал та публіцистичний майданчик. Проєкт присвячений деконструкції медійних симулякрів, критиці пізньокапіталістичного дискурсу, аналізу цифрового контролю та зон свідомого замовчування у сучасному публічному полі. Наша мета — повернення суб'єктності та висвітлення контекстів, які залишаються поза фокусом мейнстріму.
@@ -444,7 +456,7 @@
 								</div>
 							</header>
 
-							<!-- Перемикач режимів у стилі 40 відтінків сірого з FontAwesome іконками -->
+							<!-- Перемикач режимів -->
 							<div class="view-mode-tabs">
 								<span class="view-tab active" id="tab-slides" onclick="switchViewMode('slides', this)">
 									<i class="icon solid fa-clone icon-fa"></i>
@@ -462,7 +474,6 @@
 									<span data-lang="en">Full List</span>
 								</span>
 								
-								<!-- Вкладка Пошук -->
 								<span class="view-tab" id="tab-search" onclick="activateSearchTab(this)">
 									<i class="icon solid fa-search icon-fa"></i>
 									<input type="text" id="inlineSearchInput" class="search-tab-input" onkeyup="handleInlineSearch(event)" placeholder="Search..." style="display: none;" />
@@ -479,7 +490,7 @@
 								</div>
 							</div>
 
-							<!-- Область двох вікон для "Повного списку" та пошуку -->
+							<!-- Область "Повного списку" та Пошуку -->
 							<div class="full-list-container" id="fullListContainer" style="display: none;">
 								<div class="full-list-box">
 									<ul class="full-list-items" id="fullListColumn1"></ul>
@@ -529,10 +540,10 @@
 								<li><a href="https://www.instagram.com/hello.oleh/" class="icon brands style2 fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
 							</ul>
 
-							<!-- Монохромний блок Powered by $WTF -->
-							<div style="margin-top: 1.5em; padding: 0.6em 1em; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; background: rgba(255, 255, 255, 0.02); text-align: left;">
-								<p style="margin: 0; font-size: 0.85em; opacity: 0.85; color: #d1d5db;">
-									🚀 Powered by <a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #ffffff; font-weight: bold; text-decoration: none; border-bottom: 1px dotted #9ca3af;">$WTF</a>
+							<!-- Чітко видимий Powered by $WTF у футері -->
+							<div style="margin-top: 1.5em; padding: 0.6em 1em; border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 8px; background: rgba(0, 0, 0, 0.03); text-align: left;">
+								<p style="margin: 0; font-size: 0.85em; color: #4b5563;">
+									🚀 Powered by <a href="https://wannatrumpf.pages.dev" target="_blank" class="footer-wtf-link">$WTF</a>
 								</p>
 							</div>
 						</section>
@@ -555,12 +566,11 @@
 			<script src="posts.js"></script>
 			<script src="favorit.js"></script>
 
-		<!-- Script: Engine & Trimmed Descriptions to ~10 words -->
+		<!-- Engine Script -->
 			<script>
 				let currentLang = localStorage.getItem('selected_lang') || 'en';
 				let currentMode = 'slides';
 
-				// Функція обрізки опису до 10 слів
 				function truncateWords(text, limit = 10) {
 					if (!text) return '';
 					const words = text.trim().split(/\s+/);
@@ -598,12 +608,12 @@
 					if (btnUa && btnEn) {
 						if (currentLang === 'en') {
 							btnEn.style.opacity = '1';
-							btnEn.style.color = '#ffffff';
+							btnEn.style.color = '#111827';
 							btnUa.style.opacity = '0.5';
 							btnUa.style.color = 'inherit';
 						} else {
 							btnUa.style.opacity = '1';
-							btnUa.style.color = '#ffffff';
+							btnUa.style.color = '#111827';
 							btnEn.style.opacity = '0.5';
 							btnEn.style.color = 'inherit';
 						}
@@ -637,7 +647,6 @@
 
 					postsToRender.forEach(item => {
 						const article = document.createElement('article');
-						// Обрізаємо опис до 10 слів
 						const shortDesc = truncateWords(item.desc, 10);
 
 						article.innerHTML = `
