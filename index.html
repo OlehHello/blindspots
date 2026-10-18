@@ -67,12 +67,12 @@
 				background: rgba(255, 255, 255, 0.05);
 				border: 1px solid rgba(255, 255, 255, 0.15);
 				color: #ccc;
-				padding: 0.4em 0.9em;
+				padding: 0.4em 1.1em;
 				border-radius: 20px;
 				font-size: 0.85em;
 				cursor: pointer;
 				user-select: none;
-				transition: all 0.25 ease;
+				transition: all 0.25s ease;
 			}
 
 			.view-tab:hover {
@@ -87,7 +87,7 @@
 				border-color: #f59e0b !important;
 			}
 
-			/* --- ДРАГ-КАРУСЕЛЬ (БЕЗ АВТОСКРОЛУ) --- */
+			/* --- НЕСКІНЧЕННА ЦИКТІЧНА ДРАГ-КАРУСЕЛЬ --- */
 			.carousel-wrapper {
 				width: 100%;
 				overflow-x: auto;
@@ -180,7 +180,7 @@
 				transform: translateY(5px) !important;
 			}
 
-			/* --- ДВІ ВЕЛИКІ КОЛОНКИ ДЛЯ "ПОВНОГО СПИСКУ" --- */
+			/* --- ДВІ ВЕЛИКІ КОЛОНКИ ДЛЯ "ПОВНОГО СПИСКУ" ТА ПОШУКУ --- */
 			.full-list-container {
 				display: grid;
 				grid-template-columns: 1fr 1fr;
@@ -195,14 +195,14 @@
 			}
 
 			.full-list-box {
-				background: rgba(255, 255, 255, 0.03);
-				border: 1px solid rgba(255, 255, 255, 0.1);
+				background: rgba(18, 18, 22, 0.85);
+				border: 1px solid rgba(255, 255, 255, 0.2);
 				border-radius: 12px;
 				padding: 1.5em;
-				max-height: 480px;
+				max-height: 520px;
 				overflow-y: auto;
 				scrollbar-width: thin;
-				scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+				scrollbar-color: rgba(245, 158, 11, 0.4) transparent;
 			}
 
 			.full-list-items {
@@ -215,8 +215,8 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				padding: 0.8em 0;
-				border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+				padding: 0.9em 0;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 				gap: 1em;
 			}
 
@@ -224,15 +224,17 @@
 				border-bottom: none;
 			}
 
+			/* Контрастний та яскравий текст для читання */
 			.full-list-item a.title-link {
-				color: #e5e7eb !important;
-				font-size: 0.95em;
+				color: #ffffff !important;
+				font-size: 1.05em;
 				font-weight: 600;
-				line-height: 1.3;
+				line-height: 1.35;
 				text-decoration: none !important;
 				border-bottom: none !important;
 				transition: color 0.2s ease;
 				flex-grow: 1;
+				text-shadow: 0 1px 2px rgba(0,0,0,0.8);
 			}
 
 			.full-list-item a.title-link:hover {
@@ -240,12 +242,34 @@
 			}
 
 			.full-list-item .thumb-icon {
-				width: 46px;
-				height: 46px;
+				width: 52px;
+				height: 52px;
 				border-radius: 6px;
 				object-fit: cover;
 				flex-shrink: 0;
-				border: 1px solid rgba(255, 255, 255, 0.15);
+				border: 1px solid rgba(255, 255, 255, 0.25);
+			}
+
+			/* --- ПОЛЕ ПОШУКУ --- */
+			.search-box-wrapper {
+				max-width: 500px;
+				margin: 0 auto 1.5em auto;
+				position: relative;
+			}
+
+			.search-input {
+				width: 100%;
+				background: rgba(255, 255, 255, 0.08) !important;
+				border: 1px solid rgba(245, 158, 11, 0.5) !important;
+				border-radius: 25px !important;
+				padding: 0.6em 1.2em !important;
+				color: #fff !important;
+				font-size: 0.95em !important;
+				outline: none !important;
+			}
+
+			.search-input::placeholder {
+				color: rgba(255, 255, 255, 0.5) !important;
 			}
 		</style>
 	</head>
@@ -336,350 +360,30 @@
 
 							<!-- Перемикач режимів -->
 							<div class="view-mode-tabs">
-								<span class="view-tab active" onclick="switchViewMode('newest', this)">
-									<span data-lang="ua" style="display: none;">Найновіші</span>
-									<span data-lang="en">Newest</span>
-								</span>
-								<span class="view-tab" onclick="switchViewMode('oldest', this)">
-									<span data-lang="ua" style="display: none;">Найстаріші</span>
-									<span data-lang="en">Oldest</span>
-								</span>
-								<span class="view-tab" onclick="switchViewMode('random', this)">
-									<span data-lang="ua" style="display: none;">Випадкові</span>
-									<span data-lang="en">Random</span>
+								<span class="view-tab active" onclick="switchViewMode('slides', this)">
+									<span data-lang="ua" style="display: none;">🎞️ Слайди</span>
+									<span data-lang="en">🎞️ Slides</span>
 								</span>
 								<span class="view-tab" onclick="switchViewMode('editor', this)">
-									<span data-lang="ua" style="display: none;">Вибір автора</span>
-									<span data-lang="en">Editor's Choice</span>
+									<span data-lang="ua" style="display: none;">⭐ Вибір автора</span>
+									<span data-lang="en">⭐ Editor's Choice</span>
 								</span>
 								<span class="view-tab" onclick="switchViewMode('full', this)">
-									<span data-lang="ua" style="display: none;">Повний список</span>
-									<span data-lang="en">Full List</span>
+									<span data-lang="ua" style="display: none;">📚 Повний список</span>
+									<span data-lang="en">📚 Full List</span>
+								</span>
+								<span class="view-tab" onclick="switchViewMode('search', this)">
+									<span data-lang="ua" style="display: none;">🔍 Пошук</span>
+									<span data-lang="en">🔍 Search</span>
 								</span>
 							</div>
 
-							<!-- Область каруселі (для режимів: найновіші, найстаріші, випадкові, вибір автора) -->
+							<!-- Поле пошуку (для режиму "Пошук") -->
+							<div class="search-box-wrapper" id="searchBoxWrapper" style="display: none;">
+								<input type="text" id="searchInput" class="search-input" onkeyup="handleSearch()" placeholder="Search articles / Введіть слово для пошуку..." />
+							</div>
+
+							<!-- Область драг-каруселі -->
 							<div class="carousel-wrapper" id="carouselWrapper">
 								<div class="carousel-track" id="carousel-track">
 								</div>
-							</div>
-
-							<!-- Область двох вікон для режиму "Повний список" -->
-							<div class="full-list-container" id="fullListContainer" style="display: none;">
-								<div class="full-list-box">
-									<ul class="full-list-items" id="fullListColumn1"></ul>
-								</div>
-								<div class="full-list-box">
-									<ul class="full-list-items" id="fullListColumn2"></ul>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-				<!-- Footer -->
-				<footer id="footer">
-					<div class="inner">
-						<section>
-							<h2 data-lang="ua" style="display: none;">Хочете замовити статтю? Напишіть мені</h2>
-							<h2 data-lang="en">Want me to write an article? Get in touch</h2>
-							
-							<form method="post" action="https://formspree.io/f/your_form_id">
-								<div class="fields">
-									<div class="field half">
-										<input type="text" name="name" id="name" placeholder="Name / Ім'я" />
-									</div>
-									<div class="field half">
-										<input type="email" name="email" id="email" placeholder="Email" />
-									</div>
-									<div class="field">
-										<textarea name="message" id="message" placeholder="Message / Повідомлення..."></textarea>
-									</div>
-								</div>
-								<ul class="actions">
-									<li>
-										<input type="submit" value="Надіслати" class="primary" data-lang="ua" style="display: none;" />
-										<input type="submit" value="Send" class="primary" data-lang="en" />
-									</li>
-								</ul>
-							</form>
-						</section>
-						<section>
-							<h2>Follow</h2>
-							<ul class="icons">
-								<li><a href="https://olehhello.substack.com" class="icon solid style2 fa-newspaper" target="_blank"><span class="label">Substack</span></a></li>
-								<li><a href="https://x.com/Oleh_Hello" class="icon brands style2 fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
-								<li><a href="https://www.youtube.com/@KobzarApocrypha" class="icon brands style2 fa-youtube" target="_blank"><span class="label">Kobzar Apocrypha</span></a></li>
-								<li><a href="https://www.facebook.com/Oleh.Hell" class="icon brands style2 fa-facebook-f" target="_blank"><span class="label">Facebook</span></a></li>
-								<li><a href="https://www.instagram.com/hello.oleh/" class="icon brands style2 fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-							</ul>
-
-							<!-- ВІРІВНЯНО ЧІТКО ЗЛІВА -->
-							<div style="margin-top: 1.5em; padding: 0.6em 1em; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; background: rgba(255, 255, 255, 0.02); text-align: left;">
-								<p style="margin: 0; font-size: 0.85em; opacity: 0.9;">
-									🚀 Powered by <a href="https://wannatrumpf.pages.dev" target="_blank" style="color: #f59e0b; font-weight: bold; text-decoration: none; border-bottom: 1px dotted #f59e0b;">$WTF</a>
-								</p>
-							</div>
-						</section>
-						<ul class="copyright">
-							<li>&copy; Blindspots. All rights reserved.</li>
-						</ul>
-					</div>
-				</footer>
-
-			</div>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-		<!-- Підключаємо файли даних -->
-			<script src="posts.js"></script>
-			<script src="favorit.js"></script>
-
-		<!-- Script: Multi-Mode Engine & Drag Carousel -->
-			<script>
-				let currentLang = localStorage.getItem('selected_lang') || 'en';
-				let currentMode = 'newest';
-
-				function getFilteredPosts() {
-					return (typeof allPosts !== 'undefined') ? allPosts.filter(p => p.lang === currentLang) : [];
-				}
-
-				function getFavoritePosts() {
-					if (typeof favoritePosts !== 'undefined' && favoritePosts.length > 0) {
-						return favoritePosts.filter(p => p.lang === currentLang);
-					}
-					return getFilteredPosts().slice(0, 3);
-				}
-
-				function shuffleArray(array) {
-					const arr = [...array];
-					for (let i = arr.length - 1; i > 0; i--) {
-						const j = Math.floor(Math.random() * (i + 1));
-						[arr[i], arr[j]] = [arr[j], arr[i]];
-					}
-					return arr;
-				}
-
-				function updateUIStaticText() {
-					document.querySelectorAll('[data-lang]').forEach(el => {
-						if (el.getAttribute('data-lang') === currentLang) {
-							el.style.display = '';
-						} else {
-							el.style.display = 'none';
-						}
-					});
-
-					const btnUa = document.getElementById('btn-ua');
-					const btnEn = document.getElementById('btn-en');
-					if (btnUa && btnEn) {
-						if (currentLang === 'en') {
-							btnEn.style.opacity = '1';
-							btnEn.style.color = '#f59e0b';
-							btnUa.style.opacity = '0.5';
-							btnUa.style.color = 'inherit';
-						} else {
-							btnUa.style.opacity = '1';
-							btnUa.style.color = '#f59e0b';
-							btnEn.style.opacity = '0.5';
-							btnEn.style.color = 'inherit';
-						}
-					}
-				}
-
-				function renderContent() {
-					const carouselWrapper = document.getElementById('carouselWrapper');
-					const fullListContainer = document.getElementById('fullListContainer');
-					const track = document.getElementById('carousel-track');
-
-					if (currentMode === 'full') {
-						carouselWrapper.style.display = 'none';
-						fullListContainer.style.display = 'grid';
-						renderFullListTwoColumns();
-						return;
-					}
-
-					carouselWrapper.style.display = 'block';
-					fullListContainer.style.display = 'none';
-					track.innerHTML = '';
-
-					let postsToRender = [];
-
-					if (currentMode === 'newest') {
-						postsToRender = [...getFilteredPosts()];
-					} else if (currentMode === 'oldest') {
-						postsToRender = [...getFilteredPosts()].reverse();
-					} else if (currentMode === 'random') {
-						postsToRender = shuffleArray(getFilteredPosts());
-					} else if (currentMode === 'editor') {
-						postsToRender = getFavoritePosts().slice(0, 3);
-					}
-
-					postsToRender.forEach(item => {
-						const article = document.createElement('article');
-						article.innerHTML = `
-							<span class="image">
-								<img src="${item.img}" alt="${item.title}" />
-							</span>
-							<a href="${item.link}" target="_blank">
-								<h2>${item.title}</h2>
-								<div class="content">
-									<p>${item.desc || ''}</p>
-								</div>
-							</a>
-						`;
-						track.appendChild(article);
-					});
-				}
-
-				function renderFullListTwoColumns() {
-					const col1 = document.getElementById('fullListColumn1');
-					const col2 = document.getElementById('fullListColumn2');
-					const filtered = getFilteredPosts();
-
-					if (!col1 || !col2) return;
-
-					col1.innerHTML = '';
-					col2.innerHTML = '';
-
-					const half = Math.ceil(filtered.length / 2);
-					const leftItems = filtered.slice(0, half);
-					const rightItems = filtered.slice(half);
-
-					const createListItemHtml = (item) => `
-						<li class="full-list-item">
-							<a href="${item.link}" target="_blank" class="title-link">${item.title}</a>
-							<img src="${item.img}" alt="" class="thumb-icon" />
-						</li>
-					`;
-
-					leftItems.forEach(item => col1.insertAdjacentHTML('beforeend', createListItemHtml(item)));
-					rightItems.forEach(item => col2.insertAdjacentHTML('beforeend', createListItemHtml(item)));
-				}
-
-				function switchViewMode(mode, tabElement) {
-					currentMode = mode;
-					document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
-					if (tabElement) tabElement.classList.add('active');
-					renderContent();
-				}
-
-				function switchLanguage(lang) {
-					currentLang = lang;
-					localStorage.setItem('selected_lang', lang);
-					updateUIStaticText();
-					renderContent();
-				}
-
-				// --- ДРАГ МИШКОЮ/ТАЧЕМ ДЛЯ КАРУСЕЛІ ---
-				const slider = document.getElementById('carouselWrapper');
-				let isDown = false;
-				let startX;
-				let scrollLeft;
-
-				if (slider) {
-					slider.addEventListener('mousedown', (e) => {
-						isDown = true;
-						startX = e.pageX - slider.offsetLeft;
-						scrollLeft = slider.scrollLeft;
-					});
-					slider.addEventListener('mouseleave', () => { isDown = false; });
-					slider.addEventListener('mouseup', () => { isDown = false; });
-					slider.addEventListener('mousemove', (e) => {
-						if (!isDown) return;
-						e.preventDefault();
-						const x = e.pageX - slider.offsetLeft;
-						const walk = (x - startX) * 2; // швидкість зсуву
-						slider.scrollLeft = scrollLeft - walk;
-					});
-				}
-
-				document.addEventListener('DOMContentLoaded', () => {
-					updateUIStaticText();
-					renderContent();
-				});
-			</script>
-
-		<!-- Modal Raydium Swap Script -->
-			<script>
-				window.addEventListener('DOMContentLoaded', () => {
-					function openSwapModal(e) {
-						if (e) e.preventDefault();
-						if (document.getElementById('jup-modal-overlay')) return;
-
-						const overlay = document.createElement('div');
-						overlay.id = 'jup-modal-overlay';
-						Object.assign(overlay.style, {
-							position: 'fixed',
-							inset: '0',
-							backgroundColor: 'rgba(0, 0, 0, 0.75)',
-							zIndex: '999999',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							backdropFilter: 'blur(4px)'
-						});
-
-						const modal = document.createElement('div');
-						Object.assign(modal.style, {
-							position: 'relative',
-							width: '100%',
-							maxWidth: '440px',
-							height: '600px',
-							maxHeight: '90vh',
-							borderRadius: '20px',
-							overflow: 'hidden',
-							boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
-						});
-
-						const closeBtn = document.createElement('button');
-						closeBtn.innerText = '✕';
-						Object.assign(closeBtn.style, {
-							position: 'absolute',
-							top: '12px',
-							right: '12px',
-							width: '32px',
-							height: '32px',
-							borderRadius: '50%',
-							border: 'none',
-							background: 'rgba(255, 255, 255, 0.2)',
-							color: '#fff',
-							fontSize: '18px',
-							cursor: 'pointer',
-							zIndex: '10'
-						});
-						closeBtn.onclick = () => overlay.remove();
-
-						const iframe = document.createElement('iframe');
-						iframe.src = 'https://raydium.io/swap/?inputMint=sol&outputMint=5dmy661GrH4hJUWQv78DuEkus3McKnm4DdY8tXmHXray';
-						Object.assign(iframe.style, {
-							width: '100%',
-							height: '100%',
-							border: 'none'
-						});
-
-						modal.appendChild(closeBtn);
-						modal.appendChild(iframe);
-						overlay.appendChild(modal);
-
-						overlay.onclick = (event) => {
-							if (event.target === overlay) overlay.remove();
-						};
-
-						document.body.appendChild(overlay);
-					}
-
-					const btnUA = document.getElementById('buyBtnUA');
-					const btnEN = document.getElementById('buyBtnEN');
-
-					if (btnUA) btnUA.addEventListener('click', openSwapModal);
-					if (btnEN) btnEN.addEventListener('click', openSwapModal);
-				});
-			</script>
-
-	</body>
-</html>
