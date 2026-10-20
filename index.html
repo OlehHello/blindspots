@@ -451,7 +451,6 @@
 					<div id="main">
 						<div class="inner">
 							<header style="margin-bottom: 1.8em;">
-								<!-- Оновлена фраза українською мовою -->
 								<p data-lang="ua" style="display: none; font-size: 1.1em; margin-bottom: 0;">Це сліпі плями мейнстріму, те що ви завжди хотіли дізнатися, але боялися запитати.</p>
 								<p data-lang="en" style="font-size: 1.1em; margin-bottom: 0;">These are the blind spots of the mainstream — what you always wanted to know, but were afraid to ask.</p>
 
@@ -516,30 +515,22 @@
 				<!-- Footer -->
 				<footer id="footer">
 					<div class="inner">
+						<!-- Оновлений блок футера замість старої форми -->
 						<section>
-							<h2 data-lang="ua" style="display: none;">Хочете замовити статтю? Напишіть мені</h2>
-							<h2 data-lang="en">Want me to write an article? Get in touch</h2>
+							<h2 data-lang="ua" style="display: none;">Маєте запитання чи хочете замовити статтю?</h2>
+							<h2 data-lang="en">Have questions or want to request an article?</h2>
 							
-							<form method="post" action="https://formspree.io/f/your_form_id">
-								<div class="fields">
-									<div class="field half">
-										<input type="text" name="name" id="name" placeholder="Name / Ім'я" />
-									</div>
-									<div class="field half">
-										<input type="email" name="email" id="email" placeholder="Email" />
-									</div>
-									<div class="field">
-										<textarea name="message" id="message" placeholder="Message / Повідомлення..."></textarea>
-									</div>
-								</div>
-								<ul class="actions">
-									<li>
-										<input type="submit" value="Надіслати" class="primary" data-lang="ua" style="display: none;" />
-										<input type="submit" value="Send" class="primary" data-lang="en" />
-									</li>
-								</ul>
-							</form>
+							<p style="font-size: 0.9em; opacity: 0.8; margin-bottom: 1em; color: #4b5563;">
+								<span data-lang="ua" style="display: none;">Скористайтеся інтерактивним AI-асистентом у нижньому правому кутку, щоб дізнатися більше про проєкт або залишити мені повідомлення.</span>
+								<span data-lang="en">Use the interactive AI assistant in the bottom right corner to learn more about the project or leave me a message.</span>
+							</p>
+
+							<button onclick="toggleAiChat()" class="metallic-btn" style="height: 2.2em; line-height: 2.2em; padding: 0 1.2em; font-size: 0.9em;">
+								💬 <span data-lang="ua" style="display: none;">Написати AI-асистенту</span>
+								<span data-lang="en">Chat with AI Assistant</span>
+							</button>
 						</section>
+
 						<section>
 							<h2>Follow</h2>
 							<ul class="icons">
@@ -550,7 +541,6 @@
 								<li><a href="https://www.instagram.com/hello.oleh/" class="icon brands style2 fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
 							</ul>
 
-							<!-- Очищений від рамки чистий рядок Powered by $WTF -->
 							<div style="margin-top: 1.5em; text-align: left;">
 								<p style="margin: 0; font-size: 0.88em; color: #4b5563;">
 									🚀 Powered by <a href="https://wannatrumpf.pages.dev" target="_blank" class="footer-wtf-link">$WTF</a>
@@ -937,6 +927,84 @@
 					if (btnEN) btnEN.addEventListener('click', openSwapModal);
 				});
 			</script>
+
+		<!-- AI Chat Widget UI -->
+		<div id="aiChatCircle" onclick="toggleAiChat()" style="position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background: #1f2937; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 99999; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+			<span style="font-size: 1.3em;">💬</span>
+		</div>
+
+		<div id="aiChatBox" style="display: none; position: fixed; bottom: 80px; right: 20px; width: 340px; height: 450px; background: #121216; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; z-index: 99999; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+			<!-- Chat Header -->
+			<div style="background: #1f2937; padding: 0.8em 1em; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+				<strong style="color: #fff; font-size: 0.9em;">Blindspots AI Assistant</strong>
+				<span onclick="toggleAiChat()" style="color: #aaa; cursor: pointer; font-size: 1.1em;">✕</span>
+			</div>
+
+			<!-- Chat Messages Container -->
+			<div id="aiChatMessages" style="flex-grow: 1; padding: 1em; overflow-y: auto; font-size: 0.85em; color: #d1d5db; display: flex; flex-direction: column; gap: 0.8em;">
+				<div style="background: rgba(255,255,255,0.05); padding: 0.6em 0.8em; border-radius: 8px; align-self: flex-start;">
+					Привіт! Я AI-асистент Blindspots. Запитайте мене про концепцію статей або залиште повідомлення для Олега.
+				</div>
+			</div>
+
+			<!-- Chat Input -->
+			<div style="padding: 0.6em; border-top: 1px solid rgba(255,255,255,0.1); display: flex; gap: 0.4em; background: #18181c;">
+				<input type="text" id="aiChatInput" placeholder="Запитати або залишити контакт..." onkeypress="if(event.key==='Enter') sendAiMessage()" style="flex-grow: 1; background: rgba(255,255,255,0.08) !important; border: none !important; color: #fff !important; font-size: 0.85em !important; padding: 0.5em 0.8em !important; border-radius: 6px !important; outline: none !important;" />
+				<button onclick="sendAiMessage()" style="background: #374151; color: #fff; border: none; padding: 0 0.8em; border-radius: 6px; cursor: pointer; font-size: 0.85em;">&rarr;</button>
+			</div>
+		</div>
+
+		<script>
+			let chatHistory = [];
+			const WORKER_URL = "https://worker.oleh-hello.workers.dev"; // Ваше посилання на Cloudflare Worker
+
+			function toggleAiChat() {
+				const box = document.getElementById('aiChatBox');
+				box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'flex' : 'none';
+			}
+
+			async function sendAiMessage() {
+				const input = document.getElementById('aiChatInput');
+				const msgContainer = document.getElementById('aiChatMessages');
+				const text = input.value.trim();
+
+				if (!text) return;
+
+				// Додаємо повідомлення користувача
+				msgContainer.innerHTML += `<div style="background: #374151; color: #fff; padding: 0.6em 0.8em; border-radius: 8px; align-self: flex-end; max-width: 80%;">${text}</div>`;
+				input.value = '';
+				msgContainer.scrollTop = msgContainer.scrollHeight;
+
+				// Додаємо статус "Зачекайте..."
+				const loadingId = 'loading-' + Date.now();
+				msgContainer.innerHTML += `<div id="${loadingId}" style="background: rgba(255,255,255,0.05); padding: 0.6em 0.8em; border-radius: 8px; align-self: flex-start; opacity: 0.6;">Думаю...</div>`;
+				msgContainer.scrollTop = msgContainer.scrollHeight;
+
+				try {
+					const res = await fetch(WORKER_URL, {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({ message: text, history: chatHistory })
+					});
+
+					const data = await res.json();
+					document.getElementById(loadingId).remove();
+
+					const replyText = data.reply || "Помилка відповіді.";
+					msgContainer.innerHTML += `<div style="background: rgba(255,255,255,0.05); padding: 0.6em 0.8em; border-radius: 8px; align-self: flex-start;">${replyText}</div>`;
+					
+					// Оновлюємо історію
+					chatHistory.push({ role: "user", parts: [{ text }] });
+					chatHistory.push({ role: "model", parts: [{ text: replyText }] });
+
+				} catch (e) {
+					document.getElementById(loadingId).remove();
+					msgContainer.innerHTML += `<div style="background: rgba(255,0,0,0.1); color: #f87171; padding: 0.6em 0.8em; border-radius: 8px; align-self: flex-start;">Помилка з'єднання з AI.</div>`;
+				}
+
+				msgContainer.scrollTop = msgContainer.scrollHeight;
+			}
+		</script>
 
 	</body>
 </html>
