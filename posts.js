@@ -1,6 +1,13 @@
 const allPosts = [
 	// ================= УКРАЇНСЬКІ СТАТТІ =================
 	{
+		title: "Анатомія війни: порівняльний аналіз стратегій Ізраїлю, Росії та України",
+		link: "https://olehhello.substack.com/p/3ca",
+		img: "https://substackcdn.com/image/fetch/$s_!2kbM!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1af46315-ad8f-4ad0-b892-d4e0bb3b47a4_1672x941.png",
+		desc: "Сучасні воєнні конфлікти часто описують через мову ідеологічних гасел та емоційних закликів.",
+		lang: "ua"
+	},
+	{
 		title: "Множинне зведення до нуля: Філософія геноциду в умовах пізньокапіталістичної війни",
 		link: "https://olehhello.substack.com/p/755",
 		img: "https://substackcdn.com/image/fetch/$s_!2TA0!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F65574de3-89ef-4974-a4ad-ca3c1b230db7_784x1168.jpeg",
@@ -429,6 +436,13 @@ const allPosts = [
 	},
 
 	// ================= ENGLISH ARTICLES =================
+	{
+		title: "The Anatomy of War: A Comparative Analysis of the Strategies of Israel, Russia, and Ukraine",
+		link: "https://olehhello.substack.com/p/the-anatomy-of-war-a-comparative",
+		img: "https://substackcdn.com/image/fetch/$s_!ADR3!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3168c7da-06eb-4caf-8504-3cb897eb4561_1672x941.png",
+		desc: "Modern military conflicts are frequently framed through ideological slogans and emotional appeals.",
+		lang: "en"
+	},
 	{
 		title: "Multiple Reduction to Zero: The Philosophy of Genocide in Late-Capitalist Warfare",
 		link: "https://olehhello.substack.com/p/multiple-reduction-to-zero-the-philosophy",
