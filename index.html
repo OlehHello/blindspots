@@ -122,11 +122,20 @@
 				margin-top: 0.8em;
 				padding-left: 1em;
 				border-left: 2px solid #6b7280;
+				text-align: left;
 			}
 
 			.about-expanded-text.open {
-				max-height: 500px;
-				transition: max-height 0.5s ease-in-out;
+				max-height: 2000px;
+				transition: max-height 0.8s ease-in-out;
+			}
+
+			.about-expanded-text h3 {
+				font-size: 1.1em;
+				margin-top: 1em;
+				margin-bottom: 0.4em;
+				color: #111827;
+				font-weight: bold;
 			}
 
 			/* --- КАТЕГОРІЇ (40 ВІДТІНКІВ СІРОГО) --- */
@@ -417,7 +426,7 @@
 					<div class="inner">
 
 						<!-- Logo & Title -->
-						<a href="javascript:void(0)" class="logo logo-trigger" onclick="toggleAboutText()" title="Click to read about Blindspots">
+						<a href="javascript:void(0)" class="logo logo-trigger" onclick="toggleAboutText()" title="Click to read manifesto">
 							<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Blindspots</span>
 						</a>
 
@@ -451,17 +460,48 @@
 					<div id="main">
 						<div class="inner">
 							<header style="margin-bottom: 1.8em;">
-								<p data-lang="ua" style="display: none; font-size: 1.1em; margin-bottom: 0;">Це сліпі плями мейнстріму, те що ви завжди хотіли дізнатися, але боялися запитати.</p>
-								<p data-lang="en" style="font-size: 1.1em; margin-bottom: 0;">These are the blind spots of the mainstream — what you always wanted to know, but were afraid to ask.</p>
+								<p data-lang="ua" style="display: none; font-size: 1.1em; margin-bottom: 0;">Це сліпі плями мейнстріму, те що ви завжди хотіли дізнатися, але боялися запитати. Натисніть на логотип, щоб відкрити маніфест.</p>
+								<p data-lang="en" style="font-size: 1.1em; margin-bottom: 0;">These are the blind spots of the mainstream — what you always wanted to know, but were afraid to ask. Click the logo to read the manifesto.</p>
 
-								<!-- Розгорнутий опис проєкту -->
+								<!-- Розгорнутий маніфест проєкту -->
 								<div class="about-expanded-text" id="aboutExpandedText">
-									<p data-lang="ua" style="display: none; margin: 0;">
-										<strong>Blindspots (Сліпі плями)</strong> — це незалежний аналітично-філософський портал та публіцистичний майданчик. Проєкт присвячений деконструкції медійних симулякрів, критиці пізньокапіталістичного дискурсу, аналізу цифрового контролю та зон свідомого замовчування у сучасному публічному полі. Наша мета — повернення суб'єктності та висвітлення контекстів, які залишаються поза фокусом мейнстріму.
-									</p>
-									<p data-lang="en" style="margin: 0;">
-										<strong>Blindspots</strong> is an independent analytical and philosophical portal dedicated to the deconstruction of media simulacra, critique of late-capitalist warfare and digital control, and the examination of silenced zones within modern public discourse. Our mission is to restore critical human agency and shed light on contexts overshadowed by the mainstream.
-									</p>
+									<div data-lang="ua" style="display: none;">
+										<h3 style="margin-top: 0;">About Blindspots: Маніфест деконструкції на зламі епістем</h3>
+										<p><strong>Blindspots («Сліпі зони»)</strong> — це простір радикальної деконструкції ідеологічних та технологічних систем. Назва проекту фіксує фундаментальну ознаку сучасної архітектури: сліпоту самої людської свідомості та глобальних процесів, що розгортаються в точці переходу до нової машинної епістеми.</p>
+										<p>Ми опинилися в стані після постмодерну — у просторі глибокої системної кризи, яка більше не описується старими гуманістичними категоріями. Будь-які спроби медійних чи політичних еліт використовувати старі наративи є безглуздими: вони перетворилися на порожні симулякри, які нічого не пояснюють.</p>
+										<p>Проект Blindspots досліджує три фундаментальні фактори, що формують наші головні сліпі зони:</p>
+										
+										<h3>1. Криза юдео-християнського світу та фрагментація часу</h3>
+										<p>Ми переживаємо фінал юдео-християнської цивілізаційної епістеми. Протягом століть вона описувала світ через категорію Суб'єкта, де останнім легітиматором людського «Я» та лінійної раціональності виступав Бог. Руйнація цього диктату та диктату лінійної телеології («руху до прогресу») вивільнила раніше заблоковані феномени.</p>
+										<p>Світ розпався на різні швидкості та часи через петлі зворотного зв'язку, які прискорюють або сповільнюють реальність. Космічний час тепер безпосередньо сусідить із незмінним часом архаїки та виживання. Цифровий капіталізм легко інтегрує ці вивільнені архаїчні культи, запускаючи їх у космос як елемент тотального абсурду та хайпу.</p>
+
+										<h3>2. Сліпа цифровізація та архаїчний канібалізм капіталу</h3>
+										<p>Новітня архітектура функціонує на базовому протиріччі: вона декларує тотальну прозорість, але діє наосліп. Людство ще ніколи не стикалося з такою масштабною раціоналізацією, де стара мова практик замінюється машинною мовою цифрових алгоритмів. У цьому сліпому русі немає вищої гуманістичної мети — є лише чиста змагальність та вивільнене архаїчне бажання наживи-поглинання.</p>
+										<p>Процес цифровізації оголює первісний канібалізм капіталу, де великі кібернетичні суб'єкти поглинають менших. Цей спосіб функціонування є повністю непрозорим: поки пересічне населення заганяється в рамки жорсткого цифрового контролю, уряди, спецслужби та великий капітал оперують у тіні гігантських офшорних зон позахідного світу.</p>
+
+										<h3>3. Оптика запізнення: Свідомість у пастці минулого</h3>
+										<p>Головна сліпа зона людини — це специфіка самої свідомості. Людська оптика завжди сфокусована на сущому — на тому, що вже відбулося і сталося де-факто. Свідомість хронічно запізнюється у своєму аналізі епохи й діє постфактум (як це відбулося з осмисленням постмодерну, коли він уже повністю оформився).</p>
+										<p>Ми намагаємося описувати теперішні процеси в термінах актуальної для нас епістеми, у той час як сама епістема вже змінилася і стала машинною. Оскільки людський апарат здатний усвідомити минуле лише з погляду більшої, вже відійшовши епістеми, ми принципово не здатні прорахувати майбутнє. Через цю структурну сліпоту виникають такі феномени, як «чорний лебідь» чи катастрофа — як точки абсолютної, невідворотної сліпоти.</p>
+									</div>
+
+									<div data-lang="en">
+										<h3 style="margin-top: 0;">About Blindspots: Manifesto of Deconstruction at the Turn of Epistemes</h3>
+										<p><strong>Blindspots</strong> is a space for the radical deconstruction of ideological and technological systems. The name of the project captures a fundamental feature of contemporary architecture: the blindness of human consciousness itself and of the global processes unfolding at the threshold of a new machine episteme.</p>
+										<p>We find ourselves in a post-modern condition — a space of deep systemic crisis that can no longer be described using old humanist categories. Any attempts by media or political elites to rely on obsolete narratives are meaningless: they have degraded into empty simulacra that explain nothing.</p>
+										<p>Blindspots explores three fundamental factors shaping our primary blind spots:</p>
+
+										<h3>1. The Crisis of the Judeo-Christian World and the Fragmentation of Time</h3>
+										<p>We are witnessing the final chapter of the Judeo-Christian civilizational episteme. For centuries, it framed the world through the category of the Subject, where God served as the ultimate legitimizer of the human "I" and linear rationality. The collapse of this dictate — and the dictate of linear teleology ("progress") — has unleashed previously blocked phenomena.</p>
+										<p>The world has fragmented into different speeds and temporalities through feedback loops that accelerate or decelerate reality. Cosmic time now directly borders the immutable time of archaism and survival. Digital capitalism easily integrates these unleashed archaic cults, launching them into space as elements of total absurdity and hype.</p>
+
+										<h3>2. Blind Digitalization and the Archaic Cannibalism of Capital</h3>
+										<p>The latest architecture operates on a fundamental contradiction: it proclaims total transparency while acting completely blind. Humanity has never faced such massive rationalization, where old practices are replaced by the machine language of digital algorithms. In this blind momentum, there is no higher humanist purpose — only pure competitiveness and an unleashed archaic desire for accumulation and consumption.</p>
+										<p>Digitalization exposes the primal cannibalism of capital, where large cybernetic entities devour smaller ones. This mode of operation is entirely opaque: while ordinary citizens are forced into strict digital control frameworks, governments, intelligence agencies, and big capital operate in the shadows of giant offshore zones of the non-Western world.</p>
+
+										<h3>3. The Optics of Delay: Consciousness Trapped in the Past</h3>
+										<p>The primary blind spot of humanity is the nature of consciousness itself. Human optics are always focused on what has already happened de facto. Consciousness chronically lags behind in its analysis of an era, acting post-factum (much like postmodernism was only comprehended after it had fully crystallized).</p>
+										<p>We attempt to describe present processes using the terms of our current episteme, even though the episteme itself has already shifted to a machine paradigm. Because the human apparatus can only comprehend the past from the vantage point of a receding episteme, we are fundamentally incapable of calculating the future. This structural blindness breeds phenomena like "black swans" or catastrophes — points of absolute, inevitable blindness.</p>
+									</div>
 								</div>
 							</header>
 
@@ -956,7 +996,7 @@
 
 		<script>
 			let chatHistory = [];
-			const WORKER_URL = "https://worker.oleh-hello.workers.dev"; // Ваше посилання на Cloudflare Worker
+			const WORKER_URL = "https://worker.oleh-hello.workers.dev";
 
 			function toggleAiChat() {
 				const box = document.getElementById('aiChatBox');
@@ -970,12 +1010,10 @@
 
 				if (!text) return;
 
-				// Додаємо повідомлення користувача
 				msgContainer.innerHTML += `<div style="background: #374151; color: #fff; padding: 0.6em 0.8em; border-radius: 8px; align-self: flex-end; max-width: 80%;">${text}</div>`;
 				input.value = '';
 				msgContainer.scrollTop = msgContainer.scrollHeight;
 
-				// Додаємо статус "Зачекайте..."
 				const loadingId = 'loading-' + Date.now();
 				msgContainer.innerHTML += `<div id="${loadingId}" style="background: rgba(255,255,255,0.05); padding: 0.6em 0.8em; border-radius: 8px; align-self: flex-start; opacity: 0.6;">Думаю...</div>`;
 				msgContainer.scrollTop = msgContainer.scrollHeight;
@@ -993,7 +1031,6 @@
 					const replyText = data.reply || "Помилка відповіді.";
 					msgContainer.innerHTML += `<div style="background: rgba(255,255,255,0.05); padding: 0.6em 0.8em; border-radius: 8px; align-self: flex-start;">${replyText}</div>`;
 					
-					// Оновлюємо історію
 					chatHistory.push({ role: "user", parts: [{ text }] });
 					chatHistory.push({ role: "model", parts: [{ text: replyText }] });
 
