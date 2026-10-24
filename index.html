@@ -112,13 +112,19 @@
 				opacity: 0.8;
 			}
 
+			/* --- ОБНОВЛЕННЫЙ СТИЛЬ ABOUT --- */
 			.about-expanded-text {
 				max-height: 0;
 				overflow: hidden;
-				transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+				/* Немного быстрее анимация для отзывчивости */
+				transition: max-height 0.6s cubic-bezier(0, 1, 0, 1);
 				font-size: 0.95em;
 				line-height: 1.6;
-				color: #4b5563;
+				
+				/* --- ИЗМЕНЕНИЕ 1: ТЕКСТ СТАЛ ТЕМНЕЕ --- */
+				/* Было: #4b5563 (серый). Стало: #1f2937 (темно-серый, почти черный) */
+				color: #1f2937;
+				
 				margin-top: 0.8em;
 				padding-left: 1em;
 				border-left: 2px solid #6b7280;
@@ -126,14 +132,19 @@
 			}
 
 			.about-expanded-text.open {
-				max-height: 2000px;
+				/* Оставляем большое значение для раскрытия всего текста */
+				max-height: 3000px;
 				transition: max-height 0.8s ease-in-out;
 			}
 
 			.about-expanded-text h3 {
 				font-size: 1.1em;
-				margin-top: 1em;
-				margin-bottom: 0.4em;
+				margin-top: 1.5em; /* Отступ сверху от предыдущего абзаца */
+				
+				/* --- ИЗМЕНЕНИЕ 2: ОТСТУП ОТ ЗАГОЛОВКА ДО ТЕКСТА --- */
+				/* Было: 0.4em. Стало: 0.8em */
+				margin-bottom: 0.8em;
+				
 				color: #111827;
 				font-weight: bold;
 			}
